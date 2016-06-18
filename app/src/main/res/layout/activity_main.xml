@@ -4,6 +4,9 @@
         <variable
             name="weather"
             type="com.uramonk.androidtemplateapp.model.WeatherEntity" />
+        <variable
+            name="mainViewModel"
+            type="com.uramonk.androidtemplateapp.viewmodel.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -19,6 +22,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="@{weather.weather.get(0).main}" />
+            android:text="@{mainViewModel.weatherEntity.weather.get(0).main}" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="30dp"
+            android:text="@{mainViewModel.text}"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="button"
+            android:onClick="@{mainViewModel.onClicked}"/>
     </LinearLayout>
 </layout>
