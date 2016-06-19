@@ -15,7 +15,7 @@ public class MainActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        MainViewModel mainViewModel = new MainViewModel();
+        MainViewModel mainViewModel = new MainViewModel(this);
         binding.setMainViewModel(mainViewModel);
     }
 }
