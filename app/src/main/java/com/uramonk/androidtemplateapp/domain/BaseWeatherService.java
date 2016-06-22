@@ -15,7 +15,7 @@ public class BaseWeatherService {
     private final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
     protected final String API_KEY = "Your OpenWeatherMap API Key.";
 
-    protected Retrofit retrofit;
+    protected final Retrofit retrofit;
     private HttpLoggingInterceptor httpLoggingInterceptor;
     private OkHttpClient okHttpClient;
 
@@ -34,5 +34,9 @@ public class BaseWeatherService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+    }
+
+    public Retrofit getRetrofit() {
+        return retrofit;
     }
 }

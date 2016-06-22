@@ -5,7 +5,9 @@ import android.view.View;
 
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.domain.WeatherService;
+import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
 import com.uramonk.androidtemplateapp.model.WeatherEntity;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,8 +28,11 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void onClicked(View view) {
-        if (text.get().isEmpty()) text.set("Button Clicked!");
-        else text.set("");
+        if (text.get().isEmpty()) {
+            text.set("Button Clicked!");
+        } else {
+            text.set("");
+        }
     }
 
     @Override
@@ -44,12 +49,14 @@ public class MainViewModel extends BaseViewModel {
     protected void onResumeView() {
         Timber.d("onResumeView");
 
-        new WeatherService()
-                .getWeather()
-                .compose(activity.bindUntilEvent(ActivityEvent.DESTROY))
+        WeatherService weatherService = ModuleInjector.getInstance().getWeatherService();
+
+        weatherService.getWeather()
+                .compose(activity.bindUntilEvent(ActivityEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {
                     Timber.d(throwable, "Error: WeatherService.getWeather");
+                    CommonErrorHandler.handleError(activity, throwable, weatherService.getRetrofit());
                 });
     }
 

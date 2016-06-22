@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -47,3 +46,6 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:9.0.2'
     compile 'com.google.firebase:firebase-core:9.0.2'
 }
+
+// TODO: If you added 'app/google-service.json' file, please enable this line.
+// apply plugin: 'com.google.gms.google-services'
