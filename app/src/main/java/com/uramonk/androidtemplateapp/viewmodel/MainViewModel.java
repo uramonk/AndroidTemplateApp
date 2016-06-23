@@ -20,13 +20,12 @@ public class MainViewModel extends BaseViewModel {
     @Override
     protected void onCreateView() {
         Timber.d("onCreateView");
+        commitFragment(activity, MainFragment.newInstance(), R.id.container);
     }
 
     @Override
     protected void onStartView() {
         Timber.d("onStartView");
-
-        commitFragment(activity, MainFragment.newInstance(), R.id.container);
     }
 
     @Override

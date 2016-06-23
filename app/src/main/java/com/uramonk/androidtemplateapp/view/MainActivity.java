@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.view;
 
+import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -11,11 +12,12 @@ import com.uramonk.androidtemplateapp.viewmodel.MainViewModel;
 public class MainActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         MainViewModel mainViewModel = new MainViewModel(this);
         binding.setMainViewModel(mainViewModel);
+
+        // Call after ViewModel was created
+        super.onCreate(savedInstanceState);
     }
 
     @Override
