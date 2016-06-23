@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.error;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
@@ -16,6 +17,10 @@ import timber.log.Timber;
  * Created by uramonk on 2016/06/22.
  */
 public class CommonErrorHandler {
+    public static void handleError(Fragment fragment, Throwable throwable, Retrofit retrofit) {
+        handleError(fragment.getActivity(), throwable, retrofit);
+    }
+
     public static void handleError(Context context, Throwable throwable, Retrofit retrofit) {
         // 400 ~ 500
         if (throwable instanceof HttpException) {
