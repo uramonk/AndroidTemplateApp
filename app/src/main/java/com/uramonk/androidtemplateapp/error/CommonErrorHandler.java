@@ -52,7 +52,7 @@ public class CommonErrorHandler {
 
     private static void show(Context context, APIError apiError) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Error: " + apiError.apiStatus);
+        builder.setTitle("Error: " + apiError.getAPIStatus());
         builder.setMessage(apiError.message);
         builder.setPositiveButton("OK",
                 (dialog, which) -> {

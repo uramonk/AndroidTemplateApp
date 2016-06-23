@@ -6,12 +6,14 @@ package com.uramonk.androidtemplateapp.error;
 public class APIError {
     public final int cod;
     public final String message;
-    public final APIStatus apiStatus;
 
     public APIError(int cod, String message) {
         this.cod = cod;
         this.message = message;
-        this.apiStatus = convertAPIStatus(cod);
+    }
+
+    public APIStatus getAPIStatus() {
+        return convertAPIStatus(cod);
     }
 
     private APIStatus convertAPIStatus(int cod) {
