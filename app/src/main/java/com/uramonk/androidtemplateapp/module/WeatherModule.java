@@ -23,16 +23,19 @@ public class WeatherModule {
 
     @Provides
     @Singleton
-    public WeatherApi provideWeatherApi() {
-        // ToDo Devide OkHttpClient provider
+    public OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .build();
+    }
 
+    @Provides
+    @Singleton
+    public WeatherApi provideWeatherApi(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)

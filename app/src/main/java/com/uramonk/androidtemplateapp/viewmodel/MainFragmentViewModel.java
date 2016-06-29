@@ -8,13 +8,12 @@ import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent;
-import com.uramonk.androidtemplateapp.domain.WeatherService;
-import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
 import com.uramonk.androidtemplateapp.model.WeatherEntity;
 
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -37,6 +36,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     @Override
     protected void onCreateView() {
         Timber.d("onCreateView");
+        ModuleInjector.getInstance().getWeatherComponent().inject(this);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class MainFragmentViewModel extends BaseViewModel {
     protected void onResumeView() {
         Timber.d("onResumeView");
 
-        DaggerWeatherComponent.builder().build().inject(this);
         weatherApi.getWeather("TOKYO", "")
+                .subscribeOn(Schedulers.newThread())
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {

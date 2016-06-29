@@ -1,12 +1,13 @@
 package com.uramonk.androidtemplateapp;
 
-import com.uramonk.androidtemplateapp.domain.WeatherService;
+import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent;
+import com.uramonk.androidtemplateapp.component.WeatherComponent;
 
 /**
  * Created by uramonk on 2016/06/22.
  */
 public class ModuleInjector {
-    private WeatherService weatherService;
+    private WeatherComponent weatherComponent;
 
     public static ModuleInjector instance = new ModuleInjector();
 
@@ -18,10 +19,10 @@ public class ModuleInjector {
         return instance;
     }
 
-    public synchronized WeatherService getWeatherService() {
-        if (weatherService == null) {
-            weatherService = new WeatherService();
+    public synchronized WeatherComponent getWeatherComponent() {
+        if (weatherComponent == null) {
+            weatherComponent = DaggerWeatherComponent.builder().build();
         }
-        return weatherService;
+        return weatherComponent;
     }
 }
