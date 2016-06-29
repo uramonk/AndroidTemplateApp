@@ -8,6 +8,7 @@ import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
+import com.uramonk.androidtemplateapp.model.WeatherModel;
 
 import javax.inject.Inject;
 
@@ -25,7 +26,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     private RxFragment fragment;
 
     @Inject
-    WeatherApi weatherApi;
+    WeatherModel weatherModel;
 
     public MainFragmentViewModel(RxFragment fragment) {
         super(fragment);
@@ -47,8 +48,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     protected void onResumeView() {
         Timber.d("onResumeView");
 
-        weatherApi.getWeather("TOKYO", "")
-                .subscribeOn(Schedulers.newThread())
+        weatherModel.getWeather()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {
