@@ -13,18 +13,4 @@ public class WeatherEntity {
         this.base = base;
         this.weather = weather;
     }
-
-    public class Weather {
-        public final int id;
-        public final String main;
-        public final String description;
-        public final String icon;
-
-        public Weather(int id, String main, String description, String icon) {
-            this.id = id;
-            this.main = main;
-            this.description = description;
-            this.icon = icon;
-        }
-    }
 }

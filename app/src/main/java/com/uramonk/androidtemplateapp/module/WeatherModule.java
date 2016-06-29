@@ -46,4 +46,10 @@ public class WeatherModule {
 
         return retrofit.create(WeatherApi.class);
     }
+
+    @Provides
+    @Singleton
+    public WeatherModel provideWeatherModel(WeatherApi weatherApi) {
+        return new WeatherModel(weatherApi);
+    }
 }
