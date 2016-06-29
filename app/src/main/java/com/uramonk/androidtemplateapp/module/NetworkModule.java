@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.module;
 
+import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class NetworkModule {
-    private final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    private final String BASE_URL = Constants.BASE_URL;
 
     @Provides
     @Singleton
@@ -42,11 +43,5 @@ public class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    public WeatherApi provideWeatherApi(Retrofit retrofit) {
-        return retrofit.create(WeatherApi.class);
     }
 }
