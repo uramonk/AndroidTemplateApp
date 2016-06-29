@@ -4,8 +4,12 @@ import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
+import com.uramonk.androidtemplateapp.ModuleInjector;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+
+import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -17,6 +21,13 @@ import timber.log.Timber;
  * Created by uramonk on 2016/06/22.
  */
 public class CommonErrorHandler {
+    @Inject
+    Retrofit retrofit;
+
+    public CommonErrorHandler() {
+        ModuleInjector.getInstance().getWeatherComponent().inject(this);
+    }
+
     public static void handleError(Fragment fragment, Throwable throwable, Retrofit retrofit) {
         handleError(fragment.getActivity(), throwable, retrofit);
     }
