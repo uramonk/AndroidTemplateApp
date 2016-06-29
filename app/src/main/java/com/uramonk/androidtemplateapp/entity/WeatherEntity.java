@@ -1,4 +1,4 @@
-package com.uramonk.androidtemplateapp.model;
+package com.uramonk.androidtemplateapp.entity;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.uramonk.androidtemplateapp.api;
 
-import com.uramonk.androidtemplateapp.model.WeatherEntity;
+import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

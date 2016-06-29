@@ -7,8 +7,7 @@ import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
-import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent;
-import com.uramonk.androidtemplateapp.model.WeatherEntity;
+import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 
 import javax.inject.Inject;
 
