@@ -15,7 +15,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.HttpException;
-import timber.log.Timber;
 
 /**
  * Created by uramonk on 2016/06/22.
@@ -28,14 +27,14 @@ public class CommonErrorHandler {
         ModuleInjector.getInstance().getWeatherComponent().inject(this);
     }
 
-    public static void handleError(Fragment fragment, Throwable throwable, Retrofit retrofit) {
-        handleError(fragment.getActivity(), throwable, retrofit);
+    public void handleError(Fragment fragment, Throwable throwable) {
+        handleError(fragment.getActivity(), throwable);
     }
 
-    public static void handleError(Context context, Throwable throwable, Retrofit retrofit) {
+    public void handleError(Context context, Throwable throwable) {
         // 400 ~ 500
         if (throwable instanceof HttpException) {
-            handleHttpException(context, (HttpException) throwable, retrofit);
+            handleHttpException(context, (HttpException) throwable);
         }
         // NETWORK_ERROR
         // https://github.com/square/retrofit/issues/1260#issuecomment-154878865
@@ -44,7 +43,7 @@ public class CommonErrorHandler {
         }
     }
 
-    private static void handleHttpException(Context context, HttpException exception, Retrofit retrofit) {
+    private void handleHttpException(Context context, HttpException exception) {
         Converter<ResponseBody, APIError> errorConverter = retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
         APIError apiError;
         try {
@@ -56,12 +55,12 @@ public class CommonErrorHandler {
         show(context, apiError);
     }
 
-    private static void handleIOException(Context context, IOException exception) {
+    private void handleIOException(Context context, IOException exception) {
         APIError apiError = new APIError(APIStatus.NETWORK_ERROR.getValue(), exception.getMessage());
         show(context, apiError);
     }
 
-    private static void show(Context context, APIError apiError) {
+    private void show(Context context, APIError apiError) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Error: " + apiError.getAPIStatus());
         builder.setMessage(apiError.message);

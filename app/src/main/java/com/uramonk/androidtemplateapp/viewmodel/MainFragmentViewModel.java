@@ -6,14 +6,13 @@ import android.view.View;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
-import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
+import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
 import com.uramonk.androidtemplateapp.model.WeatherModel;
 
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -53,7 +52,7 @@ public class MainFragmentViewModel extends BaseViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {
                     Timber.d(throwable, "Error: WeatherService.getWeather");
-                    //CommonErrorHandler.handleError(fragment, throwable, weatherService.getRetrofit());
+                    new CommonErrorHandler().handleError(fragment, throwable);
                 });
     }
 
