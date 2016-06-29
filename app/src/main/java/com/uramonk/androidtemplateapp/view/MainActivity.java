@@ -1,6 +1,5 @@
 package com.uramonk.androidtemplateapp.view;
 
-import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 

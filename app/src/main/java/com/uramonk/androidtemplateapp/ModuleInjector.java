@@ -2,11 +2,16 @@ package com.uramonk.androidtemplateapp;
 
 import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent;
 import com.uramonk.androidtemplateapp.component.WeatherComponent;
+import com.uramonk.androidtemplateapp.module.NetworkModule;
+import com.uramonk.androidtemplateapp.module.WeatherModule;
 
 /**
  * Created by uramonk on 2016/06/22.
  */
 public class ModuleInjector {
+    /**
+     * Components
+     */
     private WeatherComponent weatherComponent;
 
     public static ModuleInjector instance = new ModuleInjector();
@@ -19,9 +24,12 @@ public class ModuleInjector {
         return instance;
     }
 
-    public synchronized WeatherComponent getWeatherComponent() {
+    public WeatherComponent getWeatherComponent() {
         if (weatherComponent == null) {
-            weatherComponent = DaggerWeatherComponent.builder().build();
+            weatherComponent = DaggerWeatherComponent.builder()
+                    .networkModule(new NetworkModule(Constants.BASE_WEATHER_URL))
+                    .weatherModule(new WeatherModule())
+                    .build();
         }
         return weatherComponent;
     }
