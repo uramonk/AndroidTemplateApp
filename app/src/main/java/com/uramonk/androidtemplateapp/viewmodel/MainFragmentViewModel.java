@@ -6,9 +6,13 @@ import android.view.View;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
+import com.uramonk.androidtemplateapp.api.WeatherApi;
+import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent;
 import com.uramonk.androidtemplateapp.domain.WeatherService;
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
 import com.uramonk.androidtemplateapp.model.WeatherEntity;
+
+import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
@@ -21,6 +25,9 @@ public class MainFragmentViewModel extends BaseViewModel {
     public final ObservableField<WeatherEntity> weatherEntity = new ObservableField<>();
 
     private RxFragment fragment;
+
+    @Inject
+    WeatherApi weatherApi;
 
     public MainFragmentViewModel(RxFragment fragment) {
         super(fragment);
@@ -41,14 +48,13 @@ public class MainFragmentViewModel extends BaseViewModel {
     protected void onResumeView() {
         Timber.d("onResumeView");
 
-        WeatherService weatherService = ModuleInjector.getInstance().getWeatherService();
-
-        weatherService.getWeather()
+        DaggerWeatherComponent.builder().build().inject(this);
+        weatherApi.getWeather("TOKYO", "")
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {
                     Timber.d(throwable, "Error: WeatherService.getWeather");
-                    CommonErrorHandler.handleError(fragment, throwable, weatherService.getRetrofit());
+                    //CommonErrorHandler.handleError(fragment, throwable, weatherService.getRetrofit());
                 });
     }
 

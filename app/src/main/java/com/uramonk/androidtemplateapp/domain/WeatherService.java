@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.domain;
 
+import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.model.WeatherEntity;
 
 import retrofit2.http.GET;
@@ -11,13 +12,11 @@ import rx.schedulers.Schedulers;
 /**
  * Created by uramonk on 2016/06/18.
  */
+@Deprecated
 public class WeatherService extends BaseWeatherService {
-    private WeatherApi weatherApi;
+    private final String API_KEY = "Your OpenWeatherMap API Key.";
 
-    public interface WeatherApi {
-        @GET("weather")
-        Observable<WeatherEntity> getWeather(@Query("q") String q, @Query("appid") String appid);
-    }
+    private WeatherApi weatherApi;
 
     public WeatherService() {
         super();
