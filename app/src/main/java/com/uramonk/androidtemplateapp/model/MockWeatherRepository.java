@@ -12,7 +12,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by uramonk on 2016/06/29.
  */
-public class MockWeatherModel extends WeatherModel {
+public class MockWeatherRepository implements IWeatherRepository {
     public Observable<WeatherEntity> getWeather() {
         List<Weather> list = new ArrayList<>();
         Weather weather = new Weather(1, "test", "test2", "test3");

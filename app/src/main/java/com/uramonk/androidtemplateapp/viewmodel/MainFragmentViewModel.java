@@ -8,7 +8,8 @@ import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
-import com.uramonk.androidtemplateapp.model.WeatherModel;
+import com.uramonk.androidtemplateapp.model.IWeatherRepository;
+import com.uramonk.androidtemplateapp.model.WeatherRepository;
 
 import javax.inject.Inject;
 
@@ -25,7 +26,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     private RxFragment fragment;
 
     @Inject
-    WeatherModel weatherModel;
+    IWeatherRepository weatherRepository;
 
     public MainFragmentViewModel(RxFragment fragment) {
         super(fragment);
@@ -47,7 +48,7 @@ public class MainFragmentViewModel extends BaseViewModel {
     protected void onResumeView() {
         Timber.d("onResumeView");
 
-        weatherModel.getWeather()
+        weatherRepository.getWeather()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this.weatherEntity::set, throwable -> {

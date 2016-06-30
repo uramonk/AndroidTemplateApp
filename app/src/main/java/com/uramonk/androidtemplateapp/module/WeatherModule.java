@@ -1,7 +1,9 @@
 package com.uramonk.androidtemplateapp.module;
 
 import com.uramonk.androidtemplateapp.api.WeatherApi;
-import com.uramonk.androidtemplateapp.model.WeatherModel;
+import com.uramonk.androidtemplateapp.model.IWeatherRepository;
+import com.uramonk.androidtemplateapp.model.MockWeatherRepository;
+import com.uramonk.androidtemplateapp.model.WeatherRepository;
 
 import javax.inject.Singleton;
 
@@ -22,7 +24,8 @@ public class WeatherModule {
 
     @Provides
     @Singleton
-    public WeatherModel provideWeatherModel(WeatherApi weatherApi) {
-        return new WeatherModel(weatherApi);
+    public IWeatherRepository provideWeatherModel(WeatherApi weatherApi) {
+        return new WeatherRepository(weatherApi);
+        //return new MockWeatherRepository();
     }
 }

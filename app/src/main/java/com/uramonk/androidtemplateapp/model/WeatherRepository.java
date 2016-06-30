@@ -9,15 +9,11 @@ import rx.schedulers.Schedulers;
 /**
  * Created by uramonk on 2016/06/29.
  */
-public class WeatherModel {
+public class WeatherRepository implements IWeatherRepository {
     private final String API_KEY = "Your OpenWeatherMap API Key";
     private WeatherApi weatherApi;
 
-    protected WeatherModel() {
-
-    }
-
-    public WeatherModel(WeatherApi weatherApi) {
+    public WeatherRepository(WeatherApi weatherApi) {
         this.weatherApi = weatherApi;
     }
 
