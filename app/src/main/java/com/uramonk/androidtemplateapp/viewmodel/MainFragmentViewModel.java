@@ -38,17 +38,20 @@ public class MainFragmentViewModel extends BaseViewModel {
 
     @Override
     protected void onCreateView() {
+        super.onCreateView();
         Timber.d("onCreateView");
         ModuleInjector.getInstance().getWeatherComponent().inject(this);
     }
 
     @Override
     protected void onStartView() {
+        super.onStartView();
         Timber.d("onStartView");
     }
 
     @Override
     protected void onResumeView() {
+        super.onResumeView();
         Timber.d("onResumeView");
 
         weatherRepository.getWeather()
@@ -62,16 +65,19 @@ public class MainFragmentViewModel extends BaseViewModel {
 
     @Override
     protected void onPauseView() {
+        super.onPauseView();
         Timber.d("onPauseView");
     }
 
     @Override
     protected void onStopView() {
+        super.onStopView();
         Timber.d("onStopView");
     }
 
     @Override
     protected void onDestroyView() {
+        super.onDestroyView();
         Timber.d("onDestroyView");
     }
 

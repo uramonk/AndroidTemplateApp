@@ -3,6 +3,7 @@ package com.uramonk.androidtemplateapp.viewmodel;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.support.annotation.CallSuper;
 
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.FragmentEvent;
@@ -69,26 +70,32 @@ public class BaseViewModel {
                 });
     }
 
+    @CallSuper
     protected void onCreateView() {
-
+        // Implement common process
     }
 
+    @CallSuper
     protected void onStartView() {
-
+        
     }
 
+    @CallSuper
     protected void onResumeView() {
 
     }
 
+    @CallSuper
     protected void onPauseView() {
 
     }
 
+    @CallSuper
     protected void onStopView() {
 
     }
 
+    @CallSuper
     protected void onDestroyView() {
 
     }
