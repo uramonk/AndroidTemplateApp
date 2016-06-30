@@ -5,13 +5,14 @@ import android.view.View;
 
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.RxFragment;
+import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.ModuleInjector;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
-import com.uramonk.androidtemplateapp.model.IWeatherRepository;
-import com.uramonk.androidtemplateapp.model.WeatherRepository;
+import com.uramonk.androidtemplateapp.repository.IWeatherRepository;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
@@ -27,6 +28,8 @@ public class MainFragmentViewModel extends BaseViewModel {
 
     @Inject
     IWeatherRepository weatherRepository;
+    @Inject @Named(Constants.MOCK)
+    IWeatherRepository mockWeatherRepository;
 
     public MainFragmentViewModel(RxFragment fragment) {
         super(fragment);

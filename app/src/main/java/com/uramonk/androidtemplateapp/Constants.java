@@ -5,4 +5,9 @@ package com.uramonk.androidtemplateapp;
  */
 public class Constants {
     public static final String BASE_WEATHER_URL = "http://api.openweathermap.org/data/2.5/";
+
+    /**
+     * Dagger2 @Named Annotation
+     */
+    public static final String MOCK = "mock";
 }

@@ -1,10 +1,12 @@
 package com.uramonk.androidtemplateapp.module;
 
+import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
-import com.uramonk.androidtemplateapp.model.IWeatherRepository;
-import com.uramonk.androidtemplateapp.model.MockWeatherRepository;
-import com.uramonk.androidtemplateapp.model.WeatherRepository;
+import com.uramonk.androidtemplateapp.repository.IWeatherRepository;
+import com.uramonk.androidtemplateapp.repository.MockWeatherRepository;
+import com.uramonk.androidtemplateapp.repository.WeatherRepository;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,8 +26,13 @@ public class WeatherModule {
 
     @Provides
     @Singleton
-    public IWeatherRepository provideWeatherModel(WeatherApi weatherApi) {
+    public IWeatherRepository provideWeatherRepository(WeatherApi weatherApi) {
         return new WeatherRepository(weatherApi);
-        //return new MockWeatherRepository();
+    }
+
+    @Provides @Named(Constants.MOCK)
+    @Singleton
+    public IWeatherRepository provideMockWeatherRepository() {
+        return new MockWeatherRepository();
     }
 }

@@ -1,4 +1,4 @@
-package com.uramonk.androidtemplateapp.model;
+package com.uramonk.androidtemplateapp.repository;
 
 import com.uramonk.androidtemplateapp.entity.Weather;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
