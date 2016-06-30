@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.repository;
 
+import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 
@@ -10,7 +11,6 @@ import rx.schedulers.Schedulers;
  * Created by uramonk on 2016/06/29.
  */
 public class WeatherRepository implements IWeatherRepository {
-    private final String API_KEY = "Your OpenWeatherMap API Key";
     private WeatherApi weatherApi;
 
     public WeatherRepository(WeatherApi weatherApi) {
@@ -18,7 +18,7 @@ public class WeatherRepository implements IWeatherRepository {
     }
 
     public Observable<WeatherEntity> getWeather() {
-        return weatherApi.getWeather("TOKYO", API_KEY)
+        return weatherApi.getWeather("TOKYO", Constants.OPEN_WEATHER_MAP_API_KEY)
                 .subscribeOn(Schedulers.newThread());
     }
 }

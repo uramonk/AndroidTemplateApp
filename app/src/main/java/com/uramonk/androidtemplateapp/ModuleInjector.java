@@ -27,7 +27,7 @@ public class ModuleInjector {
     public WeatherComponent getWeatherComponent() {
         if (weatherComponent == null) {
             weatherComponent = DaggerWeatherComponent.builder()
-                    .networkModule(new NetworkModule(Constants.BASE_WEATHER_URL))
+                    .networkModule(new NetworkModule(Constants.OPEN_WEATHER_MAP_URL))
                     .weatherModule(new WeatherModule())
                     .build();
         }
