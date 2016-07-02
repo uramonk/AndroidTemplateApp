@@ -15,9 +15,9 @@ import rx.schedulers.Schedulers;
 public class MockWeatherRepository implements IWeatherRepository {
     public Observable<WeatherEntity> getWeather() {
         List<Weather> list = new ArrayList<>();
-        Weather weather = new Weather(1, "test", "test2", "test3");
+        Weather weather = new Weather(803, "Clouds", "broken clouds", "04d");
         list.add(weather);
-        WeatherEntity weatherEntity = new WeatherEntity("weather", list);
+        WeatherEntity weatherEntity = new WeatherEntity("stations", list);
 
         return Observable.just(weatherEntity)
                 .subscribeOn(Schedulers.newThread());

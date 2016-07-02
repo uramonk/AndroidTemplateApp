@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.module;
 
+import com.uramonk.androidtemplateapp.BuildConfig;
 import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 
@@ -29,11 +30,15 @@ public class NetworkModule {
     @Provides
     @Singleton
     public OkHttpClient provideOkHttpClient() {
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-        return new OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
+        if(BuildConfig.DEBUG) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(httpLoggingInterceptor);
+        }
+
+        return builder
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .build();
     }
