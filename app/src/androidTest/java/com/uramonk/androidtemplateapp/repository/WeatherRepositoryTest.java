@@ -35,10 +35,9 @@ public class WeatherRepositoryTest {
     }
 
     private IWeatherRepository getWeatherRepository(MockWebServer mockWebServer) {
-        NetworkModule networkModule = new NetworkModule(mockWebServer.url("").toString());
+        Retrofit retrofit = TestUtility.getRetrofitWithMockWebServer(mockWebServer);
+
         WeatherModule weatherModule = new WeatherModule();
-        OkHttpClient okHttpClient = networkModule.provideOkHttpClient();
-        Retrofit retrofit = networkModule.provideRetrofit(okHttpClient);
         WeatherApi weatherApi = weatherModule.provideWeatherApi(retrofit);
         return weatherModule.provideWeatherRepository(weatherApi);
     }
