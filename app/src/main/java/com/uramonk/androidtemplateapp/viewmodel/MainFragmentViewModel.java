@@ -28,8 +28,6 @@ public class MainFragmentViewModel extends BaseViewModel {
 
     @Inject
     IWeatherRepository weatherRepository;
-    @Inject @Named(Constants.MOCK)
-    IWeatherRepository mockWeatherRepository;
 
     public MainFragmentViewModel(RxFragment fragment) {
         super(fragment);
