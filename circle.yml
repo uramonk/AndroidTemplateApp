@@ -1,0 +1,19 @@
+general:
+  artifacts:
+    - ./app/build/outputs/apk/
+
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "android-24,build-tools-24.0.0,extra-google-m2repository,extra-android-m2repository"
+
+test:
+  override:
+    - ./gradlew app:assembleDebugAndroidTest
+  post:
+    - cp -r app/build/test-results/* $CIRCLE_TEST_REPORTS
