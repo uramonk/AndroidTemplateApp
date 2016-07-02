@@ -1,6 +1,7 @@
 general:
   artifacts:
     - ./app/build/outputs/apk/
+    - ./app/build/reports/androidTests/
 
 machine:
   java:
@@ -10,10 +11,19 @@ machine:
 
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "android-24,build-tools-24.0.0,extra-google-m2repository,extra-android-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "android-24,build-tools-24.0.0"
+    - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
 
 test:
   override:
-    - ./gradlew app:assembleDebugAndroidTest
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot:
+        parallel: true
+    - ./gradlew app:connectedAndroidTest:
+        parallel: true
   post:
-    - cp -r app/build/test-results/* $CIRCLE_TEST_REPORTS
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/androidTest-results/*/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
