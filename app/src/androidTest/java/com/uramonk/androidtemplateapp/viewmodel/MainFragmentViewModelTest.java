@@ -1,6 +1,11 @@
 package com.uramonk.androidtemplateapp.viewmodel;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
@@ -27,24 +32,30 @@ public class MainFragmentViewModelTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), activityTestRule.getActivity());
         solo.waitForActivity(MainActivity.class);
         solo.waitForFragmentById(R.id.container);
+        solo.unlockScreen();
     }
 
     @Test
     public void changeTextStringWhenClickButton() {
         Spoon.screenshot(activityTestRule.getActivity(), "start_1");
-        if(solo.searchButton("OK", true)) {
+        if (solo.searchButton("OK", true)) {
             solo.clickOnButton("OK");
         }
 
-        Assert.assertTrue("wrong text 1", solo.searchText(""));
+        Espresso.onView(ViewMatchers.withId((R.id.main_fragment_textview)))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
         Spoon.screenshot(activityTestRule.getActivity(), "start_2");
 
-        solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.main_fragment_button));
-        Assert.assertTrue("wrong text 2", solo.searchText("Button Clicked!"));
+        Espresso.onView(ViewMatchers.withId(R.id.main_fragment_button))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId((R.id.main_fragment_textview)))
+                .check(ViewAssertions.matches(ViewMatchers.withText("Button Clicked!")));
         Spoon.screenshot(activityTestRule.getActivity(), "button_clicked_1");
 
-        solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.main_fragment_button));
-        Assert.assertTrue("wrong text 3", solo.searchText(""));
+        Espresso.onView(ViewMatchers.withId(R.id.main_fragment_button))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId((R.id.main_fragment_textview)))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
         Spoon.screenshot(activityTestRule.getActivity(), "button_clicked_2");
     }
 }
