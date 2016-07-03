@@ -25,7 +25,7 @@ test:
         parallel: true
     - circle-android wait-for-boot:
         parallel: true
-    - adb shell input keyevent 82
+    - fb-adb shell input keyevent 82
     - ./gradlew app:spoonDebugAndroidTest:
         parallel: true
   post:
