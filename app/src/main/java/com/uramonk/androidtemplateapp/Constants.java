@@ -9,9 +9,4 @@ public class Constants {
      */
     public static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/";
     public static final String OPEN_WEATHER_MAP_API_KEY = "Your OpenWeatherMap API Key";
-    
-    /**
-     * Dagger2 @Named Annotation
-     */
-    public static final String MOCK = "mock";
 }
