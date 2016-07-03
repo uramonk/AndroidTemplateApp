@@ -1,8 +1,6 @@
 package com.uramonk.androidtemplateapp.module;
 
 import com.uramonk.androidtemplateapp.BuildConfig;
-import com.uramonk.androidtemplateapp.Constants;
-import com.uramonk.androidtemplateapp.api.WeatherApi;
 
 import java.util.concurrent.TimeUnit;
 

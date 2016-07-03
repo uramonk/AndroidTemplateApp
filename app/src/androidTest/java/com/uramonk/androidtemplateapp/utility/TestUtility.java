@@ -1,25 +1,16 @@
 package com.uramonk.androidtemplateapp.utility;
 
-import android.app.Application;
-import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
 import com.uramonk.androidtemplateapp.module.NetworkModule;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.MockWebServer;
-import okio.BufferedSource;
 import retrofit2.Retrofit;
 
 /**

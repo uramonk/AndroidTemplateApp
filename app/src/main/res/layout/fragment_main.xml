@@ -4,10 +4,6 @@
     <data>
 
         <variable
-            name="weather"
-            type="com.uramonk.androidtemplateapp.entity.WeatherEntity"/>
-
-        <variable
             name="mainFragmentViewModel"
             type="com.uramonk.androidtemplateapp.viewmodel.MainFragmentViewModel"/>
     </data>

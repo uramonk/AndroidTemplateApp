@@ -7,10 +7,7 @@ import android.support.annotation.CallSuper;
 
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.trello.rxlifecycle.components.support.RxFragment;
-import com.uramonk.androidtemplateapp.R;
 
 /**
  * Created by uramonk on 2016/06/19.

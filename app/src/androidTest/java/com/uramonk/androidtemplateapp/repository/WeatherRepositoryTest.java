@@ -4,7 +4,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
-import com.uramonk.androidtemplateapp.module.NetworkModule;
 import com.uramonk.androidtemplateapp.module.WeatherModule;
 import com.uramonk.androidtemplateapp.utility.TestUtility;
 
@@ -15,14 +14,12 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-
 import retrofit2.Retrofit;
 
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by uramonk on 2016/07/02.

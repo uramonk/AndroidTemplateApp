@@ -1,11 +1,9 @@
 package com.uramonk.androidtemplateapp.module;
 
-import com.uramonk.androidtemplateapp.Constants;
 import com.uramonk.androidtemplateapp.api.WeatherApi;
 import com.uramonk.androidtemplateapp.repository.IWeatherRepository;
 import com.uramonk.androidtemplateapp.repository.WeatherRepository;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
