@@ -30,4 +30,4 @@ test:
         parallel: true
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/androidTest-results/*/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - find . -type f -regex ".*/spoon/debug/junit-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
