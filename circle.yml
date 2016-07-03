@@ -22,6 +22,7 @@ test:
         parallel: true
     - circle-android wait-for-boot:
         parallel: true
+    - adb shell input keyevent 82
     - ./gradlew app:connectedAndroidTest:
         parallel: true
   post:
