@@ -4,6 +4,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
 import com.robotium.solo.Solo;
+import com.squareup.spoon.Spoon;
 import com.uramonk.androidtemplateapp.R;
 import com.uramonk.androidtemplateapp.view.MainActivity;
 
@@ -30,16 +31,20 @@ public class MainFragmentViewModelTest {
 
     @Test
     public void changeTextStringWhenClickButton() {
+        Spoon.screenshot(activityTestRule.getActivity(), "start_1");
         if(solo.searchButton("OK", true)) {
             solo.clickOnButton("OK");
         }
 
-        Assert.assertTrue("wrong text", solo.searchText(""));
+        Assert.assertTrue("wrong text 1", solo.searchText(""));
+        Spoon.screenshot(activityTestRule.getActivity(), "start_2");
 
         solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.main_fragment_button));
-        Assert.assertTrue("wrong text", solo.searchText("Button Clicked!"));
+        Assert.assertTrue("wrong text 2", solo.searchText("Button Clicked!"));
+        Spoon.screenshot(activityTestRule.getActivity(), "button_clicked_1");
 
         solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.main_fragment_button));
-        Assert.assertTrue("wrong text", solo.searchText(""));
+        Assert.assertTrue("wrong text 3", solo.searchText(""));
+        Spoon.screenshot(activityTestRule.getActivity(), "button_clicked_2");
     }
 }

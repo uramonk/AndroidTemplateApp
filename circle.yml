@@ -2,6 +2,7 @@ general:
   artifacts:
     - ./app/build/outputs/apk/
     - ./app/build/reports/androidTests/
+    - ./app/build/spoon/
 
 machine:
   java:
@@ -14,16 +15,18 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "android-24,build-tools-24.0.0"
     - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+  post:
+    - echo n | android create avd -n android22 -f -t android-22 -c 50M --abi default/armeabi-v7a
 
 test:
   override:
-    - emulator -avd circleci-android22 -no-audio -no-window:
+    - emulator -avd android22 -no-audio -no-window:
         background: true
         parallel: true
     - circle-android wait-for-boot:
         parallel: true
     - adb shell input keyevent 82
-    - ./gradlew app:connectedAndroidTest:
+    - ./gradlew app:spoonDebugAndroidTest:
         parallel: true
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
