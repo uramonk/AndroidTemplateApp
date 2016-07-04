@@ -1,27 +1,24 @@
 package com.uramonk.androidtemplateapp.viewmodel;
 
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.uramonk.androidtemplateapp.R;
-import com.uramonk.androidtemplateapp.view.MainFragment;
+import com.trello.rxlifecycle.components.RxFragment;
 
 import timber.log.Timber;
 
 /**
- * Created by uramonk on 2016/06/18.
+ * Created by uramonk on 2016/07/04.
  */
-public class MainViewModel extends BaseViewModel {
-    private RxAppCompatActivity activity;
+public class NextFragmentViewModel extends BaseViewModel {
+    private RxFragment fragment;
 
-    public MainViewModel(RxAppCompatActivity activity) {
-        super(activity);
-        this.activity = activity;
+    public NextFragmentViewModel(RxFragment fragment) {
+        super(fragment);
+        this.fragment = fragment;
     }
 
     @Override
     protected void onCreate() {
         super.onCreate();
         Timber.d("onCreate");
-        commitFragment(activity, MainFragment.newInstance(), R.id.container);
     }
 
     @Override
@@ -53,5 +50,4 @@ public class MainViewModel extends BaseViewModel {
         super.onDestroy();
         Timber.d("onDestroy");
     }
-
 }

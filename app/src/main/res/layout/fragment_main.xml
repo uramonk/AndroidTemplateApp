@@ -36,5 +36,12 @@
             android:layout_height="wrap_content"
             android:onClick="@{mainFragmentViewModel.onClicked}"
             android:text="button"/>
+
+        <Button
+            android:id="@+id/main_fragment_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{mainFragmentViewModel.nextButtonClicked}"
+            android:text="next"/>
     </LinearLayout>
 </layout>

@@ -14,86 +14,134 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  */
 public class BaseViewModel {
     public BaseViewModel(RxAppCompatActivity activity) {
+        subscribeActivityLifecycle(activity, ActivityEvent.DESTROY);
+    }
+
+    public BaseViewModel(RxAppCompatActivity activity, ActivityEvent activityEvent) {
+        subscribeActivityLifecycle(activity, activityEvent);
+    }
+
+    private void subscribeActivityLifecycle(RxAppCompatActivity activity, ActivityEvent activityEvent) {
         activity.lifecycle()
-                .compose(activity.bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(activityEvent -> {
-                    switch (activityEvent) {
+                .compose(activity.bindUntilEvent(activityEvent))
+                .subscribe(activityEvent1 -> {
+                    switch (activityEvent1) {
                         case CREATE:
-                            onCreateView();
+                            onCreate();
                             break;
                         case START:
-                            onStartView();
+                            onStart();
                             break;
                         case RESUME:
-                            onResumeView();
+                            onResume();
                             break;
                         case PAUSE:
-                            onPauseView();
+                            onPause();
                             break;
                         case STOP:
-                            onStopView();
+                            onStop();
                             break;
                         case DESTROY:
-                            onDestroyView();
+                            onDestroy();
                             break;
                     }
                 });
     }
 
     public BaseViewModel(com.trello.rxlifecycle.components.RxFragment fragment) {
+        subscribeFragmentLifecycle(fragment, FragmentEvent.DESTROY_VIEW);
+    }
+
+    public BaseViewModel(com.trello.rxlifecycle.components.RxFragment fragment, FragmentEvent fragmentEvent) {
+        subscribeFragmentLifecycle(fragment, fragmentEvent);
+    }
+
+    private void subscribeFragmentLifecycle(com.trello.rxlifecycle.components.RxFragment fragment, FragmentEvent fragmentEvent) {
         fragment.lifecycle()
-                .compose(fragment.bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(fragmentEvent -> {
-                    switch (fragmentEvent) {
+                .compose(fragment.bindUntilEvent(fragmentEvent))
+                .subscribe(fragmentEvent1 -> {
+                    switch (fragmentEvent1) {
                         case CREATE:
+                            onCreate();
+                            break;
+                        case CREATE_VIEW:
                             onCreateView();
                             break;
+                        case ATTACH:
+                            onAttach();
+                            break;
                         case START:
-                            onStartView();
+                            onStart();
                             break;
                         case RESUME:
-                            onResumeView();
+                            onResume();
                             break;
                         case PAUSE:
-                            onPauseView();
+                            onPause();
                             break;
                         case STOP:
-                            onStopView();
+                            onStop();
+                            break;
+                        case DETACH:
+                            onDetach();
+                            break;
+                        case DESTROY_VIEW:
+                            onDestroyView();
                             break;
                         case DESTROY:
-                            onDestroyView();
+                            onDestroy();
                             break;
                     }
                 });
     }
 
     @CallSuper
-    protected void onCreateView() {
+    protected void onCreate() {
         // Implement common process
     }
 
     @CallSuper
-    protected void onStartView() {
+    protected void onCreateView() {
+
+    }
+
+    @CallSuper
+    protected void onAttach() {
+
+    }
+
+    @CallSuper
+    protected void onStart() {
         
     }
 
     @CallSuper
-    protected void onResumeView() {
+    protected void onResume() {
 
     }
 
     @CallSuper
-    protected void onPauseView() {
+    protected void onPause() {
 
     }
 
     @CallSuper
-    protected void onStopView() {
+    protected void onStop() {
+
+    }
+
+    @CallSuper
+    protected void onDetach() {
 
     }
 
     @CallSuper
     protected void onDestroyView() {
+
+    }
+
+    @CallSuper
+    protected void onDestroy() {
 
     }
 

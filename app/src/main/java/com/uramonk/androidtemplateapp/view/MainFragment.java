@@ -16,6 +16,7 @@ import com.uramonk.androidtemplateapp.viewmodel.MainFragmentViewModel;
  * Created by uramonk on 2016/06/23.
  */
 public class MainFragment extends RxFragment {
+    private FragmentMainBinding binding;
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -26,10 +27,14 @@ public class MainFragment extends RxFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        binding = FragmentMainBinding.bind(getView());
         MainFragmentViewModel mainFragmentViewModel = new MainFragmentViewModel(this);
         binding.setMainFragmentViewModel(mainFragmentViewModel);
-
-        return binding.getRoot();
     }
 }

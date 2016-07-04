@@ -6,9 +6,11 @@ import android.view.View;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.ModuleInjector;
+import com.uramonk.androidtemplateapp.R;
 import com.uramonk.androidtemplateapp.entity.WeatherEntity;
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler;
 import com.uramonk.androidtemplateapp.repository.IWeatherRepository;
+import com.uramonk.androidtemplateapp.view.NextFragment;
 
 import javax.inject.Inject;
 
@@ -33,22 +35,34 @@ public class MainFragmentViewModel extends BaseViewModel {
     }
 
     @Override
+    protected void onCreate() {
+        super.onCreate();
+        Timber.d("onCreate");
+    }
+
+    @Override
     protected void onCreateView() {
         super.onCreateView();
         Timber.d("onCreateView");
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        Timber.d("onAttach");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Timber.d("onStart");
         ModuleInjector.getInstance().getWeatherComponent().inject(this);
     }
 
     @Override
-    protected void onStartView() {
-        super.onStartView();
-        Timber.d("onStartView");
-    }
-
-    @Override
-    protected void onResumeView() {
-        super.onResumeView();
-        Timber.d("onResumeView");
+    protected void onResume() {
+        super.onResume();
+        Timber.d("onResume");
 
         weatherRepository.getWeather()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
@@ -60,15 +74,21 @@ public class MainFragmentViewModel extends BaseViewModel {
     }
 
     @Override
-    protected void onPauseView() {
-        super.onPauseView();
-        Timber.d("onPauseView");
+    protected void onPause() {
+        super.onPause();
+        Timber.d("onPause");
     }
 
     @Override
-    protected void onStopView() {
-        super.onStopView();
-        Timber.d("onStopView");
+    protected void onStop() {
+        super.onStop();
+        Timber.d("onStop");
+    }
+
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        Timber.d("onDetach");
     }
 
     @Override
@@ -77,11 +97,21 @@ public class MainFragmentViewModel extends BaseViewModel {
         Timber.d("onDestroyView");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Timber.d("onDestroy");
+    }
+
     public void onClicked(View view) {
         if (text.get().isEmpty()) {
             text.set("Button Clicked!");
         } else {
             text.set("");
         }
+    }
+
+    public void nextButtonClicked(View view) {
+        commitFragment(this.fragment.getActivity(), NextFragment.newInstance(), R.id.container);
     }
 }
