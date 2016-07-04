@@ -147,7 +147,7 @@ public class BaseViewModel {
 
     protected void commitFragment(Activity activity, Fragment fragment, int container_id) {
         FragmentTransaction transaction = activity.getFragmentManager().beginTransaction();
-        transaction.replace(container_id, fragment);
+        transaction.replace(container_id, fragment, fragment.getClass().getSimpleName());
         transaction.addToBackStack(null);
         transaction.commit();
     }
