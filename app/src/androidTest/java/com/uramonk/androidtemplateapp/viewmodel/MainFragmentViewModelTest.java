@@ -65,6 +65,7 @@ public class MainFragmentViewModelTest {
         if (solo.searchButton("OK", true)) {
             solo.clickOnButton("OK");
         }
+        Spoon.screenshot(activityTestRule.getActivity(), "start_2");
 
         Espresso.onView(ViewMatchers.withId(R.id.main_fragment_next_button))
                 .perform(ViewActions.click());
@@ -73,5 +74,6 @@ public class MainFragmentViewModelTest {
 
         Espresso.onView(ViewMatchers.withId((R.id.next_fragment_textview)))
                 .check(ViewAssertions.matches(ViewMatchers.withText("Next Fragment")));
+        Spoon.screenshot(activityTestRule.getActivity(), "button_clicked");
     }
 }
