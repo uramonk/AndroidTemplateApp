@@ -1,7 +1,6 @@
 general:
   artifacts:
     - ./app/build/outputs/apk/
-    - ./app/build/reports/androidTests/
     - ./app/build/spoon/
 
 machine:
@@ -25,7 +24,6 @@ test:
         parallel: true
     - circle-android wait-for-boot:
         parallel: true
-    - fb-adb shell input keyevent 82
     - ./gradlew app:spoonDebugAndroidTest:
         parallel: true
   post:

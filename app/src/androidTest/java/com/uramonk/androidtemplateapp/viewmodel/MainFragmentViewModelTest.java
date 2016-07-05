@@ -2,7 +2,6 @@ package com.uramonk.androidtemplateapp.viewmodel;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -15,7 +14,6 @@ import com.uramonk.androidtemplateapp.view.MainActivity;
 import com.uramonk.androidtemplateapp.view.MainFragment;
 import com.uramonk.androidtemplateapp.view.NextFragment;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
