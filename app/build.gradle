@@ -65,6 +65,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.5'
 
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
 }
 
 // TODO: If you added 'app/google-service.json' file, please enable this line.
