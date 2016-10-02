@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.components.RxFragment;
 import com.uramonk.androidtemplateapp.R;
 import com.uramonk.androidtemplateapp.databinding.FragmentMainBinding;
 import com.uramonk.androidtemplateapp.viewmodel.MainFragmentViewModel;
+
+import rx.Observable;
 
 /**
  * Created by uramonk on 2016/06/23.
@@ -35,5 +38,13 @@ public class MainFragment extends RxFragment {
         binding = FragmentMainBinding.bind(getView());
         MainFragmentViewModel mainFragmentViewModel = new MainFragmentViewModel(this);
         binding.setMainFragmentViewModel(mainFragmentViewModel);
+    }
+
+    public Observable<Void> onButtonClicked() {
+        return RxView.clicks(binding.mainFragmentButton);
+    }
+
+    public Observable<Void> onNextButtonClicked() {
+        return RxView.clicks(binding.mainFragmentNextButton);
     }
 }
