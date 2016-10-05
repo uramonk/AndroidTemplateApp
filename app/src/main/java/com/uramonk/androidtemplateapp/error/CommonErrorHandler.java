@@ -44,23 +44,23 @@ public class CommonErrorHandler {
     }
 
     private void handleHttpException(Context context, HttpException exception) {
-        Converter<ResponseBody, APIError> errorConverter = retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
-        APIError apiError;
+        Converter<ResponseBody, ApiError> errorConverter = retrofit.responseBodyConverter(ApiError.class, new Annotation[0]);
+        ApiError apiError;
         try {
             apiError = errorConverter.convert(exception.response().errorBody());
         } catch (IOException e) {
-            apiError = new APIError(APIStatus.BAD_RESPONSE.getValue(), e.getMessage());
+            apiError = new ApiError(ApiStatus.BAD_RESPONSE.getValue(), e.getMessage());
         }
 
         show(context, apiError);
     }
 
     private void handleIOException(Context context, IOException exception) {
-        APIError apiError = new APIError(APIStatus.NETWORK_ERROR.getValue(), exception.getMessage());
+        ApiError apiError = new ApiError(ApiStatus.NETWORK_ERROR.getValue(), exception.getMessage());
         show(context, apiError);
     }
 
-    private void show(Context context, APIError apiError) {
+    private void show(Context context, ApiError apiError) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Error: " + apiError.getAPIStatus());
         builder.setMessage(apiError.message);

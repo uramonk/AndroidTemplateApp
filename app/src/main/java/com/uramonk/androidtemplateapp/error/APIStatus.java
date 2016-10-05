@@ -3,7 +3,7 @@ package com.uramonk.androidtemplateapp.error;
 /**
  * Created by uramonk on 2016/06/22.
  */
-public enum APIStatus {
+public enum ApiStatus {
     BAD_RESPONSE(1), NETWORK_ERROR(2),
     BAD_REQUEST(400), UNAUTHORIZED(401), PAYMENT_REQUIRED(402), FORBIDDEN(403), NOT_FOUND(404),
     METHOD_NOT_ALLOWED(405), NOT_ACCEPTABLE(406), PROXY_AUTHENTICATION_REQUIRED(407), REQUEST_TIMEOUT(408),
@@ -13,7 +13,7 @@ public enum APIStatus {
 
     private final int value;
 
-    APIStatus(int value) {
+    ApiStatus(int value) {
         this.value = value;
     }
 
