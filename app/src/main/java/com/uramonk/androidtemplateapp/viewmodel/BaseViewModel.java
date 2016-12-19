@@ -9,10 +9,13 @@ import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import rx.functions.Action1;
+
 /**
  * Created by uramonk on 2016/06/19.
  */
 public class BaseViewModel {
+
     public BaseViewModel(RxAppCompatActivity activity) {
         subscribeActivityLifecycle(activity, ActivityEvent.DESTROY);
     }
@@ -24,26 +27,29 @@ public class BaseViewModel {
     private void subscribeActivityLifecycle(RxAppCompatActivity activity, ActivityEvent activityEvent) {
         activity.lifecycle()
                 .compose(activity.bindUntilEvent(activityEvent))
-                .subscribe(activityEvent1 -> {
-                    switch (activityEvent1) {
-                        case CREATE:
-                            onCreate();
-                            break;
-                        case START:
-                            onStart();
-                            break;
-                        case RESUME:
-                            onResume();
-                            break;
-                        case PAUSE:
-                            onPause();
-                            break;
-                        case STOP:
-                            onStop();
-                            break;
-                        case DESTROY:
-                            onDestroy();
-                            break;
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        switch ((ActivityEvent) o) {
+                            case CREATE:
+                                onCreate();
+                                break;
+                            case START:
+                                onStart();
+                                break;
+                            case RESUME:
+                                onResume();
+                                break;
+                            case PAUSE:
+                                onPause();
+                                break;
+                            case STOP:
+                                onStop();
+                                break;
+                            case DESTROY:
+                                onDestroy();
+                                break;
+                        }
                     }
                 });
     }
@@ -56,41 +62,45 @@ public class BaseViewModel {
         subscribeFragmentLifecycle(fragment, fragmentEvent);
     }
 
-    private void subscribeFragmentLifecycle(com.trello.rxlifecycle.components.RxFragment fragment, FragmentEvent fragmentEvent) {
+    private void subscribeFragmentLifecycle(com.trello.rxlifecycle.components.RxFragment fragment,
+            FragmentEvent fragmentEvent) {
         fragment.lifecycle()
                 .compose(fragment.bindUntilEvent(fragmentEvent))
-                .subscribe(fragmentEvent1 -> {
-                    switch (fragmentEvent1) {
-                        case CREATE:
-                            onCreate();
-                            break;
-                        case CREATE_VIEW:
-                            onCreateView();
-                            break;
-                        case ATTACH:
-                            onAttach();
-                            break;
-                        case START:
-                            onStart();
-                            break;
-                        case RESUME:
-                            onResume();
-                            break;
-                        case PAUSE:
-                            onPause();
-                            break;
-                        case STOP:
-                            onStop();
-                            break;
-                        case DETACH:
-                            onDetach();
-                            break;
-                        case DESTROY_VIEW:
-                            onDestroyView();
-                            break;
-                        case DESTROY:
-                            onDestroy();
-                            break;
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        switch ((FragmentEvent) o) {
+                            case CREATE:
+                                onCreate();
+                                break;
+                            case CREATE_VIEW:
+                                onCreateView();
+                                break;
+                            case ATTACH:
+                                onAttach();
+                                break;
+                            case START:
+                                onStart();
+                                break;
+                            case RESUME:
+                                onResume();
+                                break;
+                            case PAUSE:
+                                onPause();
+                                break;
+                            case STOP:
+                                onStop();
+                                break;
+                            case DETACH:
+                                onDetach();
+                                break;
+                            case DESTROY_VIEW:
+                                onDestroyView();
+                                break;
+                            case DESTROY:
+                                onDestroy();
+                                break;
+                        }
                     }
                 });
     }
@@ -112,7 +122,7 @@ public class BaseViewModel {
 
     @CallSuper
     protected void onStart() {
-        
+
     }
 
     @CallSuper

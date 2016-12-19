@@ -18,13 +18,16 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
  * Created by uramonk on 2016/06/23.
  */
 public class MainFragmentViewModel extends BaseViewModel {
+
     public final ObservableField<String> text = new ObservableField<>("");
+
     public final ObservableField<WeatherEntity> weatherEntity = new ObservableField<>();
 
     private MainFragment fragment;
@@ -74,25 +77,43 @@ public class MainFragmentViewModel extends BaseViewModel {
         weatherRepository.getWeather()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this.weatherEntity::set, throwable -> {
-                    Timber.d(throwable, "Error: WeatherService.getWeather");
-                    new CommonErrorHandler().handleError(fragment, throwable);
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object value) {
+                        MainFragmentViewModel.this.weatherEntity.set((WeatherEntity) value);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Timber.d(throwable, "Error: WeatherService.getWeather");
+                        new CommonErrorHandler().handleError(fragment, throwable);
+                    }
                 });
 
         fragment.onButtonClicked()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
-                .subscribe(aVoid -> {
-                    if (text.get().isEmpty()) {
-                        text.set("Button Clicked!");
-                    } else {
-                        text.set("");
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object aVoid) {
+                        if (text.get().isEmpty()) {
+                            text.set("Button Clicked!");
+                        } else {
+                            text.set("");
+                        }
                     }
                 });
 
         fragment.onNextButtonClicked()
                 .compose(fragment.bindUntilEvent(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> commitFragment(this.fragment.getActivity(), NextFragment.newInstance(), R.id.container));
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object aVoid) {
+                        MainFragmentViewModel.this
+                                .commitFragment(MainFragmentViewModel.this.fragment.getActivity(), NextFragment.newInstance(),
+                                        R.id.container);
+                    }
+                });
     }
 
     @Override

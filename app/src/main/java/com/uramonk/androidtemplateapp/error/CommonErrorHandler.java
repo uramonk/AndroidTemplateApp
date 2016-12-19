@@ -2,6 +2,7 @@ package com.uramonk.androidtemplateapp.error;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.uramonk.androidtemplateapp.ModuleInjector;
@@ -65,7 +66,10 @@ public class CommonErrorHandler {
         builder.setTitle("Error: " + apiError.getAPIStatus());
         builder.setMessage(apiError.message);
         builder.setPositiveButton("OK",
-                (dialog, which) -> {
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
                 .create()
                 .show();
