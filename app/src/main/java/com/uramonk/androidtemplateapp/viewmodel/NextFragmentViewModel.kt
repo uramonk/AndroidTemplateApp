@@ -7,7 +7,7 @@ import timber.log.Timber
 /**
  * Created by uramonk on 2016/07/04.
  */
-class NextFragmentViewModel(private val fragment: RxFragment) : BaseViewModel(fragment) {
+class NextFragmentViewModel(fragment: RxFragment) : BaseViewModel(fragment) {
 
     override fun onCreate() {
         super.onCreate()

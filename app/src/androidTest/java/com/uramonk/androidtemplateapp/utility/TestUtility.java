@@ -1,8 +1,8 @@
 package com.uramonk.androidtemplateapp.utility;
 
-import android.support.test.InstrumentationRegistry;
-
 import com.uramonk.androidtemplateapp.module.NetworkModule;
+
+import android.support.test.InstrumentationRegistry;
 
 import java.io.BufferedReader;
 import java.io.IOException;

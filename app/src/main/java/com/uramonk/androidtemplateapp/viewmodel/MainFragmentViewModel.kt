@@ -12,6 +12,7 @@ import com.uramonk.androidtemplateapp.error.CommonErrorHandler
 import com.uramonk.androidtemplateapp.repository.IWeatherRepository
 import com.uramonk.androidtemplateapp.view.MainFragment
 import com.uramonk.androidtemplateapp.view.NextFragment
+import rx.Subscriber
 
 import java.util.concurrent.TimeUnit
 
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
+import rx.lang.kotlin.subscriber
 import timber.log.Timber
 
 /**
@@ -63,15 +65,18 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
 
     private fun subscribeSignals() {
         weatherRepository.getWeather()
-                .compose(fragment.bindUntilEvent<Any>(FragmentEvent.PAUSE))
+                .compose(fragment.bindUntilEvent<WeatherEntity>(FragmentEvent.PAUSE))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ value -> weatherEntity.set(value as WeatherEntity) }) { throwable ->
-                    Timber.d(throwable, "Error: WeatherService.getWeather")
-                    CommonErrorHandler().handleError(fragment, throwable)
-                }
+                .subscribe(
+                        { n -> weatherEntity.set(n) },
+                        { throwable ->
+                            Timber.d(throwable, "Error: WeatherService.getWeather")
+                            CommonErrorHandler().handleError(fragment, throwable)
+                        }
+                )
 
         fragment.onButtonClicked()
-                .compose(fragment.bindUntilEvent<Any>(FragmentEvent.PAUSE))
+                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .subscribe {
                     if (text.get().isEmpty()) {
                         text.set("Button Clicked!")
@@ -81,11 +86,11 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                 }
 
         fragment.onNextButtonClicked()
-                .compose(fragment.bindUntilEvent<Any>(FragmentEvent.PAUSE))
+                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe {
                     commitFragment(fragment.activity, NextFragment.newInstance(),
-                                    R.id.container)
+                            R.id.container)
                 }
     }
 

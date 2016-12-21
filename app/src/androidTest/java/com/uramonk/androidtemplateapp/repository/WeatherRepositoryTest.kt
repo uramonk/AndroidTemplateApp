@@ -1,25 +1,17 @@
 package com.uramonk.androidtemplateapp.repository
 
 import android.support.test.runner.AndroidJUnit4
-
-import com.uramonk.androidtemplateapp.api.WeatherApi
-import com.uramonk.androidtemplateapp.entity.WeatherEntity
 import com.uramonk.androidtemplateapp.module.WeatherModule
 import com.uramonk.androidtemplateapp.utility.TestUtility
-
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
-
 import java.io.IOException
-
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import retrofit2.Retrofit
-
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertThat
 
 /**
  * Created by uramonk on 2016/07/02.

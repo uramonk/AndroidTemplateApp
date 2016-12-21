@@ -26,7 +26,7 @@ open class BaseViewModel {
 
     private fun subscribeActivityLifecycle(activity: RxAppCompatActivity, activityEvent: ActivityEvent) {
         activity.lifecycle()
-                .compose(activity.bindUntilEvent<Any>(activityEvent))
+                .compose(activity.bindUntilEvent<ActivityEvent?>(activityEvent))
                 .subscribe { activityEvent ->
                     when (activityEvent) {
                         ActivityEvent.CREATE -> onCreate()
@@ -50,7 +50,7 @@ open class BaseViewModel {
     private fun subscribeFragmentLifecycle(fragment: com.trello.rxlifecycle.components.RxFragment,
                                            fragmentEvent: FragmentEvent) {
         fragment.lifecycle()
-                .compose(fragment.bindUntilEvent<Any>(fragmentEvent))
+                .compose(fragment.bindUntilEvent<FragmentEvent?>(fragmentEvent))
                 .subscribe { fragmentEvent ->
                     when (fragmentEvent) {
                         FragmentEvent.CREATE -> onCreate()
