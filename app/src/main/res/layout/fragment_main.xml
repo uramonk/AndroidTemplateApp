@@ -6,7 +6,7 @@
 
         <variable
             name="mainFragmentViewModel"
-            type="com.uramonk.androidtemplateapp.viewmodel.MainFragmentViewModel" />
+            type="com.uramonk.androidtemplateapp.presentation.viewmodel.MainFragmentViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@{mainFragmentViewModel.weatherEntity.weather.get(0).main}"
+            android:text="@{mainFragmentViewModel.weatherList.weathers.get(0).main}"
             android:textSize="30sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

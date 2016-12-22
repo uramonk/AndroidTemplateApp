@@ -1,9 +1,9 @@
 package com.uramonk.androidtemplateapp
 
-import com.uramonk.androidtemplateapp.component.DaggerWeatherComponent
-import com.uramonk.androidtemplateapp.component.WeatherComponent
-import com.uramonk.androidtemplateapp.module.NetworkModule
-import com.uramonk.androidtemplateapp.module.WeatherModule
+import com.uramonk.androidtemplateapp.di.component.DaggerWeatherComponent
+import com.uramonk.androidtemplateapp.di.component.WeatherComponent
+import com.uramonk.androidtemplateapp.di.module.NetworkModule
+import com.uramonk.androidtemplateapp.di.module.WeatherModule
 
 /**
  * Created by uramonk on 2016/06/22.
