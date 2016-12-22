@@ -1,6 +1,6 @@
 package com.uramonk.androidtemplateapp.utility;
 
-import com.uramonk.androidtemplateapp.module.NetworkModule;
+import com.uramonk.androidtemplateapp.di.module.NetworkModule;
 
 import android.support.test.InstrumentationRegistry;
 

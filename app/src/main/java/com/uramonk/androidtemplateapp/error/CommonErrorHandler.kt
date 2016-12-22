@@ -2,19 +2,14 @@ package com.uramonk.androidtemplateapp.error
 
 import android.app.Fragment
 import android.content.Context
-import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
-
 import com.uramonk.androidtemplateapp.ModuleInjector
-
-import java.io.IOException
-
-import javax.inject.Inject
-
-import okhttp3.ResponseBody
-import retrofit2.Converter
+import com.uramonk.androidtemplateapp.data.error.ApiError
+import com.uramonk.androidtemplateapp.data.error.ApiStatus
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.HttpException
+import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Created by uramonk on 2016/06/22.

@@ -7,7 +7,7 @@
 
         <variable
             name="nextFragmentViewModel"
-            type="com.uramonk.androidtemplateapp.viewmodel.NextFragmentViewModel" />
+            type="com.uramonk.androidtemplateapp.presentation.viewmodel.NextFragmentViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="mainViewModel"
-            type="com.uramonk.androidtemplateapp.viewmodel.MainViewModel"/>
+            type="com.uramonk.androidtemplateapp.presentation.viewmodel.MainViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
