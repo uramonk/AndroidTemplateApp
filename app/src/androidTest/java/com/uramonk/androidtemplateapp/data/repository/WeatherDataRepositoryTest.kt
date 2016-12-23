@@ -1,4 +1,4 @@
-package com.uramonk.androidtemplateapp.repository
+package com.uramonk.androidtemplateapp.data.repository
 
 import android.support.test.runner.AndroidJUnit4
 import com.uramonk.androidtemplateapp.di.module.WeatherModule
