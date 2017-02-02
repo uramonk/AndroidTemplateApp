@@ -5,6 +5,7 @@ import com.uramonk.androidtemplateapp.data.entity.mapper.WeatherListEntityDataMa
 import com.uramonk.androidtemplateapp.data.repository.WeatherDataRepository
 import com.uramonk.androidtemplateapp.domain.interactor.UseCase
 import com.uramonk.androidtemplateapp.domain.interactor.WeatherUseCase
+import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 import dagger.Module
 import dagger.Provides
@@ -36,7 +37,7 @@ class WeatherModule {
 
     @Provides
     @Singleton
-    fun provideUseCase(weatherRepository: WeatherRepository): UseCase {
+    fun provideUseCase(weatherRepository: WeatherRepository): UseCase<WeatherList> {
         return WeatherUseCase(weatherRepository)
     }
 }

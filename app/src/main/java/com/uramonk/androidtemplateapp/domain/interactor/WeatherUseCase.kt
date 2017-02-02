@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.domain.interactor
 
+import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 
 import javax.inject.Inject
@@ -12,9 +13,9 @@ import rx.Observable
 
 class WeatherUseCase
 @Inject
-constructor(private val weatherRepository: WeatherRepository) : UseCase() {
+constructor(private val weatherRepository: WeatherRepository) : UseCase<WeatherList>() {
 
-    override fun buildObservableUseCase(): Observable<*> {
+    override fun buildObservableUseCase(): Observable<WeatherList> {
         return this.weatherRepository.getWeatherList()
     }
 }

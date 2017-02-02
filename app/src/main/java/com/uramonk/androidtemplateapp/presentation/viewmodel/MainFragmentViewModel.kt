@@ -25,7 +25,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     val weatherList = ObservableField<WeatherListModel>()
 
     @Inject
-    lateinit var weatherUseCase: UseCase
+    lateinit var weatherUseCase: UseCase<WeatherList>
 
     override fun onCreate() {
         super.onCreate()
