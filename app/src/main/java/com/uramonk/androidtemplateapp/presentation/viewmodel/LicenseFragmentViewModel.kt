@@ -1,7 +1,6 @@
 package com.uramonk.androidtemplateapp.presentation.viewmodel
 
 import android.webkit.WebView
-import com.uramonk.androidtemplateapp.R
 import com.uramonk.androidtemplateapp.presentation.view.LicenseFragment
 
 import timber.log.Timber
@@ -22,7 +21,7 @@ class LicenseFragmentViewModel(private val fragment: LicenseFragment) : BaseView
         super.onResume()
         Timber.d("onResume")
 
-        val webview: WebView = fragment.view.findViewById(R.id.webview) as WebView
+        val webview: WebView = fragment.getWebView()
         webview.loadUrl("file:///android_asset/licenses.html")
     }
 

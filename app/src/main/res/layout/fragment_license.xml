@@ -10,8 +10,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.uramonk.androidtemplateapp.presentation.view.LicenseFragment">
+            android:layout_height="match_parent">
 
         <WebView android:id="@+id/webview"
                 android:layout_width="0dp"

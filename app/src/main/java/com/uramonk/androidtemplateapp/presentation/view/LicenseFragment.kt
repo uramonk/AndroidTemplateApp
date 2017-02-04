@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 
 import com.trello.rxlifecycle.components.RxFragment
 import com.uramonk.androidtemplateapp.R
@@ -14,8 +15,7 @@ import com.uramonk.androidtemplateapp.presentation.viewmodel.LicenseFragmentView
 class LicenseFragment : RxFragment() {
     private lateinit var binding: FragmentLicenseBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_license, container, false)
     }
 
@@ -24,6 +24,10 @@ class LicenseFragment : RxFragment() {
         binding = FragmentLicenseBinding.bind(view)
         val licenseFragmentViewModel = LicenseFragmentViewModel(this)
         binding.licenseFragmentViewModel = licenseFragmentViewModel
+    }
+
+    fun getWebView(): WebView {
+        return binding.webview
     }
 
     companion object {

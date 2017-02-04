@@ -14,7 +14,7 @@ import com.uramonk.androidtemplateapp.presentation.viewmodel.NextFragmentViewMod
  * Created by uramonk on 2016/07/04.
  */
 class NextFragment : RxFragment() {
-    private var binding: FragmentNextBinding? = null
+    private lateinit var binding: FragmentNextBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_next, container, false)
@@ -24,7 +24,7 @@ class NextFragment : RxFragment() {
         super.onActivityCreated(savedInstanceState)
         binding = FragmentNextBinding.bind(view)
         val nextFragmentViewModel = NextFragmentViewModel(this)
-        binding!!.nextFragmentViewModel = nextFragmentViewModel
+        binding.nextFragmentViewModel = nextFragmentViewModel
     }
 
     companion object {

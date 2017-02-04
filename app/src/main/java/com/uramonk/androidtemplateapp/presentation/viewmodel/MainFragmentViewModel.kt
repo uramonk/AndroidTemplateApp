@@ -79,6 +79,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
 
         fragment.onLicenseButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
+                .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe {
                     commitFragment(fragment.activity, LicenseFragment.newInstance(),
                             R.id.container)
