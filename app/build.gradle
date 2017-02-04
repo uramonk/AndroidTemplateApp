@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'spoon'
+apply plugin: 'com.cookpad.android.licensetools'
 
 android {
     compileSdkVersion 25
@@ -33,18 +34,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.3.1'
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'com.android.support:support-annotations:25.1.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.6.0'
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.4'
 
+
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    kapt "com.android.databinding:compiler:$android_plugin_version"
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxkotlin:0.60.0'
@@ -58,19 +53,26 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'com.eccyan:rxjava-optional:1.1.0'
-    compile 'com.google.firebase:firebase-crash:9.6.1'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-    compile 'com.google.firebase:firebase-messaging:9.6.1'
-
-    kapt 'com.google.guava:guava:19.0'
+    compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.dagger:dagger:2.5'
-    kapt 'com.google.dagger:dagger-compiler:2.5'
-
-    provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-    kapt "com.android.databinding:compiler:$android_plugin_version"
+    compile 'com.android.support:support-v4:25.1.1'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.squareup.okhttp3:mockwebserver:3.3.1'
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile 'com.android.support:support-annotations:25.1.1'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.6.0'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.4'
+    kapt 'com.google.guava:guava:19.0'
+    kapt 'com.google.dagger:dagger-compiler:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
 repositories {
     mavenCentral()

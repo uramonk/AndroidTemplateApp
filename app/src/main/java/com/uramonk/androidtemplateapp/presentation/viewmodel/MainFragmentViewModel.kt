@@ -10,6 +10,7 @@ import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler
 import com.uramonk.androidtemplateapp.presentation.model.WeatherListModel
 import com.uramonk.androidtemplateapp.presentation.model.mapper.WeatherListModelDataMapper
+import com.uramonk.androidtemplateapp.presentation.view.LicenseFragment
 import com.uramonk.androidtemplateapp.presentation.view.MainFragment
 import com.uramonk.androidtemplateapp.presentation.view.NextFragment
 import timber.log.Timber
@@ -73,6 +74,13 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe {
                     commitFragment(fragment.activity, NextFragment.newInstance(),
+                            R.id.container)
+                }
+
+        fragment.onLicenseButtonClicked()
+                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
+                .subscribe {
+                    commitFragment(fragment.activity, LicenseFragment.newInstance(),
                             R.id.container)
                 }
     }

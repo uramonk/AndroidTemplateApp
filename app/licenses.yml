@@ -1,0 +1,137 @@
+- artifact: com.android.databinding:adapters:+
+  name: adapters
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  skip: true
+- artifact: com.android.databinding:baseLibrary:+
+  name: com.android.databinding.baseLibrary
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://tools.android.com/
+  skip: true
+- artifact: com.android.databinding:library:+
+  name: library
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  skip: true
+- artifact: com.android.support.constraint:constraint-layout-solver:+
+  name: constraint-layout-solver
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+- artifact: com.android.support.constraint:constraint-layout:+
+  name: constraint-layout
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+- artifact: com.android.support:+:+
+  name: Android Support Libraries
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+- artifact: com.eccyan:rxjava-optional:+
+  name: com.eccyan:rxjava-optional
+  copyrightHolder: eccyan
+  license: Apache 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/eccyan/RxJava-Optional
+- artifact: com.google.android.gms:play-services-basement:+
+  name: play-services-basement
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: #LICENSE#
+  skip: true
+- artifact: com.google.android.gms:play-services-tasks:+
+  name: play-services-tasks
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: #LICENSE#
+  skip: true
+- artifact: com.google.code.gson:gson:+
+  name: Gson
+  copyrightHolder: Google Inc.
+  license: The Apache Software License, Version 2.0
+- artifact: com.google.dagger:dagger:+
+  name: Dagger
+  copyrightHolder: The Dagger Authors
+  license: The Apache Software License, Version 2.0
+- artifact: com.google.firebase:+:+
+  name: firebase-analytics-impl
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: #LICENSE#
+  skip: true
+- artifact: com.jakewharton.rxbinding:rxbinding:+
+  name: RxBinding
+  copyrightHolder: Jake Wharton
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/JakeWharton/RxBinding/
+- artifact: com.jakewharton.timber:timber:+
+  name: Timber
+  copyrightHolder: Jake Wharton
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/JakeWharton/timber
+- artifact: com.squareup.okhttp3:logging-interceptor:+
+  name: OkHttp Logging Interceptor
+  copyrightHolder: Square, Inc.
+  license: #LICENSE#
+  skip: true
+- artifact: com.squareup.okhttp3:okhttp:+
+  name: OkHttp
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okio:okio:+
+  name: Okio
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.retrofit2:+:+
+  name: Retrofit
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+- artifact: com.trello:rxlifecycle-components:+
+  name: RxLifecycle-Components
+  copyrightHolder: Trello
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/trello/RxLifecycle
+  skip: true
+- artifact: com.trello:rxlifecycle:+
+  name: RxLifecycle
+  copyrightHolder: Trello
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/trello/RxLifecycle
+- artifact: io.reactivex:rxandroid:+
+  name: RxAndroid
+  copyrightHolder: The RxAndroid authors
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/ReactiveX/RxAndroid
+- artifact: io.reactivex:rxjava:+
+  name: rxjava
+  copyrightHolder: RxJava Contributors.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/ReactiveX/RxJava
+- artifact: io.reactivex:rxkotlin:+
+  name: rxkotlin
+  copyrightHolder: Netflix, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/ReactiveX/RxKotlin
+- artifact: javax.inject:javax.inject:+
+  name: javax.inject
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://code.google.com/p/atinject/
+  skip: true
+- artifact: org.jetbrains.kotlin:kotlin-runtime:+
+  name: kotlin-runtime
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: #LICENSE#
+  skip: true
+- artifact: org.jetbrains.kotlin:kotlin-stdlib:+
+  name: kotlin-stdlib
+  copyrightHolder: #COPYRIGHT_HOLDER#
+  license: #LICENSE#
+  skip: true

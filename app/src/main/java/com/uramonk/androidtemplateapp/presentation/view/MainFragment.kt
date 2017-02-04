@@ -17,7 +17,7 @@ import rx.Observable
  * Created by uramonk on 2016/06/23.
  */
 class MainFragment : RxFragment() {
-    private var binding: FragmentMainBinding? = null
+    private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -27,15 +27,19 @@ class MainFragment : RxFragment() {
         super.onActivityCreated(savedInstanceState)
         binding = FragmentMainBinding.bind(view)
         val mainFragmentViewModel = MainFragmentViewModel(this)
-        binding!!.mainFragmentViewModel = mainFragmentViewModel
+        binding.mainFragmentViewModel = mainFragmentViewModel
     }
 
     fun onButtonClicked(): Observable<Void> {
-        return RxView.clicks(binding!!.mainFragmentButton)
+        return RxView.clicks(binding.mainFragmentButton)
     }
 
     fun onNextButtonClicked(): Observable<Void> {
-        return RxView.clicks(binding!!.mainFragmentNextButton)
+        return RxView.clicks(binding.mainFragmentNextButton)
+    }
+
+    fun onLicenseButtonClicked(): Observable<Void> {
+        return RxView.clicks(binding.mainFragmentLicenseButton)
     }
 
     companion object {
