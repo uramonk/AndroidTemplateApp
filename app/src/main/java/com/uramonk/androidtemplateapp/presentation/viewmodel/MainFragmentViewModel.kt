@@ -4,7 +4,6 @@ import android.databinding.ObservableField
 import com.trello.rxlifecycle.FragmentEvent
 import com.uramonk.androidtemplateapp.ModuleInjector
 import com.uramonk.androidtemplateapp.R
-import com.uramonk.androidtemplateapp.domain.interactor.DefaultSubscriber
 import com.uramonk.androidtemplateapp.domain.interactor.UseCase
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler
@@ -13,6 +12,7 @@ import com.uramonk.androidtemplateapp.presentation.model.mapper.WeatherListModel
 import com.uramonk.androidtemplateapp.presentation.view.LicenseFragment
 import com.uramonk.androidtemplateapp.presentation.view.MainFragment
 import com.uramonk.androidtemplateapp.presentation.view.NextFragment
+import rx.lang.kotlin.FunctionSubscriber
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -57,7 +57,15 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     }
 
     private fun subscribeSignals() {
-        weatherUseCase.execute(WeatherListSubscriber())
+        weatherUseCase.execute(FunctionSubscriber<WeatherList>()
+                .onNext {
+                    val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(it)
+                    weatherList.set(weatherListModel)
+                }
+                .onError {
+                    Timber.e(it, "Error: WeatherService.getWeatherList")
+                    CommonErrorHandler().handleError(fragment, it)
+                })
 
         fragment.onButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
@@ -84,18 +92,6 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                     commitFragment(fragment.activity, LicenseFragment.newInstance(),
                             R.id.container)
                 }
-    }
-
-    private inner class WeatherListSubscriber : DefaultSubscriber<WeatherList>() {
-        override fun onNext(t: WeatherList) {
-            val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(t)
-            weatherList.set(weatherListModel)
-        }
-
-        override fun onError(throwable: Throwable) {
-            Timber.e(throwable, "Error: WeatherService.getWeatherList")
-            CommonErrorHandler().handleError(fragment, throwable)
-        }
     }
 
     override fun onPause() {
