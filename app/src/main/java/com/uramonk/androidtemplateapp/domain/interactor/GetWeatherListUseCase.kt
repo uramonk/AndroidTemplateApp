@@ -11,7 +11,7 @@ import rx.Observable
  * Created by kaz on 2016/12/23.
  */
 
-class WeatherUseCase
+class GetWeatherListUseCase
 @Inject
 constructor(private val weatherRepository: WeatherRepository) : UseCase<WeatherList>() {
 
