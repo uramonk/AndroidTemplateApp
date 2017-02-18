@@ -13,6 +13,7 @@ import com.uramonk.androidtemplateapp.presentation.view.LicenseFragment
 import com.uramonk.androidtemplateapp.presentation.view.MainFragment
 import com.uramonk.androidtemplateapp.presentation.view.NextFragment
 import rx.lang.kotlin.FunctionSubscriber
+import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     val text = ObservableField("")
     val weatherList = ObservableField<WeatherListModel>()
 
+    val compositeSubscription: CompositeSubscription = CompositeSubscription()
     @Inject
     lateinit var weatherUseCase: UseCase<WeatherList>
 
@@ -57,7 +59,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     }
 
     private fun subscribeSignals() {
-        weatherUseCase.execute(FunctionSubscriber<WeatherList>()
+        compositeSubscription.add(weatherUseCase.execute(FunctionSubscriber<WeatherList>()
                 .onNext {
                     val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(it)
                     weatherList.set(weatherListModel)
@@ -65,9 +67,9 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                 .onError {
                     Timber.e(it, "Error: WeatherService.getWeatherList")
                     CommonErrorHandler().handleError(fragment, it)
-                })
+                }))
 
-        fragment.onButtonClicked()
+        compositeSubscription.add(fragment.onButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .subscribe {
                     if (text.get().isEmpty()) {
@@ -75,23 +77,23 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                     } else {
                         text.set("")
                     }
-                }
+                })
 
-        fragment.onNextButtonClicked()
+        compositeSubscription.add(fragment.onNextButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe {
                     commitFragment(fragment.activity, NextFragment.newInstance(),
                             R.id.container)
-                }
+                })
 
-        fragment.onLicenseButtonClicked()
+        compositeSubscription.add(fragment.onLicenseButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe {
                     commitFragment(fragment.activity, LicenseFragment.newInstance(),
                             R.id.container)
-                }
+                })
     }
 
     override fun onPause() {
@@ -117,6 +119,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("onDestroy")
-        weatherUseCase.unsubscribe()
+        
+        compositeSubscription.unsubscribe()
     }
 }

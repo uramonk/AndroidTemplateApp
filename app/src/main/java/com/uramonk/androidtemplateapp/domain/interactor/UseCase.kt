@@ -15,11 +15,12 @@ abstract class UseCase<T> protected constructor() {
 
     private var subscription = Subscriptions.empty()
 
-    fun execute(useCaseSubscriber: Subscriber<T>) {
+    fun execute(useCaseSubscriber: Subscriber<T>): Subscription {
         this.subscription = this.buildObservableUseCase()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(useCaseSubscriber)
+        return this.subscription
     }
 
     fun unsubscribe() {
