@@ -26,24 +26,10 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     val text = ObservableField("")
     val weatherList = ObservableField<WeatherListModel>()
 
-    val compositeSubscription: CompositeSubscription = CompositeSubscription()
+    var compositeSubscription: CompositeSubscription = CompositeSubscription()
+
     @Inject
     lateinit var weatherUseCase: UseCase<WeatherList>
-
-    override fun onCreate() {
-        super.onCreate()
-        Timber.d("onCreate")
-    }
-
-    override fun onCreateView() {
-        super.onCreateView()
-        Timber.d("onCreateView")
-    }
-
-    override fun onAttach() {
-        super.onAttach()
-        Timber.d("onAttach")
-    }
 
     override fun onStart() {
         super.onStart()
@@ -58,68 +44,51 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         subscribeSignals()
     }
 
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause")
+        compositeSubscription.unsubscribe()
+    }
+
     private fun subscribeSignals() {
+        if (compositeSubscription.isUnsubscribed) {
+            compositeSubscription = CompositeSubscription()
+        }
+
         compositeSubscription.add(weatherUseCase.execute(FunctionSubscriber<WeatherList>()
-                .onNext {
-                    val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(it)
-                    weatherList.set(weatherListModel)
-                }
-                .onError {
-                    Timber.e(it, "Error: WeatherService.getWeatherList")
-                    CommonErrorHandler().handleError(fragment, it)
-                }))
+                .onNext { setWeatherList(it) }
+                .onError { weatherUseCaseError(it) }))
 
         compositeSubscription.add(fragment.onButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
-                .subscribe {
-                    if (text.get().isEmpty()) {
-                        text.set("Button Clicked!")
-                    } else {
-                        text.set("")
-                    }
-                })
+                .subscribe { setText() })
 
         compositeSubscription.add(fragment.onNextButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    commitFragment(fragment.activity, NextFragment.newInstance(),
-                            R.id.container)
-                })
+                .subscribe { commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container) })
 
         compositeSubscription.add(fragment.onLicenseButtonClicked()
                 .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    commitFragment(fragment.activity, LicenseFragment.newInstance(),
-                            R.id.container)
-                })
+                .subscribe { commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container) })
     }
 
-    override fun onPause() {
-        super.onPause()
-        Timber.d("onPause")
+    private fun setWeatherList(it: WeatherList) {
+        val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(it)
+        weatherList.set(weatherListModel)
     }
 
-    override fun onStop() {
-        super.onStop()
-        Timber.d("onStop")
+    private fun weatherUseCaseError(it: Throwable) {
+        Timber.e(it, "Error: WeatherService.getWeatherList")
+        CommonErrorHandler().handleError(fragment, it)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Timber.d("onDetach")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.d("onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.d("onDestroy")
-        
-        compositeSubscription.unsubscribe()
+    private fun setText() {
+        if (text.get().isEmpty()) {
+            text.set("Button Clicked!")
+        } else {
+            text.set("")
+        }
     }
 }
