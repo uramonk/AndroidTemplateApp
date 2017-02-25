@@ -93,11 +93,15 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         ))
         // Transition NextFragment when next button clicked.
         compositeSubscription.add(nextButtonClickedUseCase.execute(FunctionSubscriber<Boolean>()
-                .onNext { commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container) }
+                .onNext {
+                    commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container)
+                }
         ))
         // Transition LicenseFragment when license button clicked.
         compositeSubscription.add(licenseButtonClickedUseCase.execute(FunctionSubscriber<Boolean>()
-                .onNext { commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container) }
+                .onNext {
+                    commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container)
+                }
         ))
     }
 
