@@ -1,10 +1,10 @@
 package com.uramonk.androidtemplateapp.presentation.viewmodel
 
 import android.databinding.ObservableField
-import com.trello.rxlifecycle.FragmentEvent
 import com.uramonk.androidtemplateapp.ModuleInjector
 import com.uramonk.androidtemplateapp.R
-import com.uramonk.androidtemplateapp.domain.interactor.UseCase
+import com.uramonk.androidtemplateapp.domain.interactor.GetWeatherListUseCase
+import com.uramonk.androidtemplateapp.domain.interactor.NotifyWeatherUseCase
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.error.CommonErrorHandler
 import com.uramonk.androidtemplateapp.presentation.model.WeatherListModel
@@ -29,7 +29,9 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     var compositeSubscription: CompositeSubscription = CompositeSubscription()
 
     @Inject
-    lateinit var weatherUseCase: UseCase<WeatherList>
+    lateinit var getWeatherUseCase: GetWeatherListUseCase
+    @Inject
+    lateinit var notifyWeatherUseCase: NotifyWeatherUseCase
 
     override fun onStart() {
         super.onStart()
@@ -55,21 +57,24 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
             compositeSubscription = CompositeSubscription()
         }
 
-        compositeSubscription.add(weatherUseCase.execute(FunctionSubscriber<WeatherList>()
+        // Get and store WeatherList.
+        compositeSubscription.add(getWeatherUseCase.execute(FunctionSubscriber<WeatherList>()
+                .onError { weatherUseCaseError(it) }
+        ))
+
+        // Set WeatherList to View when store is updated.
+        compositeSubscription.add(notifyWeatherUseCase.execute(FunctionSubscriber<WeatherList>()
                 .onNext { setWeatherList(it) }
-                .onError { weatherUseCaseError(it) }))
+        ))
 
         compositeSubscription.add(fragment.onButtonClicked()
-                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .subscribe { setText() })
 
         compositeSubscription.add(fragment.onNextButtonClicked()
-                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe { commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container) })
 
         compositeSubscription.add(fragment.onLicenseButtonClicked()
-                .compose(fragment.bindUntilEvent<Void>(FragmentEvent.PAUSE))
                 .throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe { commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container) })
     }
