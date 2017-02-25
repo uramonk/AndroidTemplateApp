@@ -3,6 +3,7 @@ package com.uramonk.androidtemplateapp.domain.interactor
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import rx.Observable
+import rx.Scheduler
 import javax.inject.Inject
 
 /**
@@ -11,7 +12,9 @@ import javax.inject.Inject
 
 class NotifyWeatherUseCase
 @Inject
-constructor(private val weatherStore: WeatherStore) : UseCase<WeatherList>() {
+constructor(executionScheduler: Scheduler,
+            postScheduler: Scheduler,
+            private val weatherStore: WeatherStore) : UseCase<WeatherList>(executionScheduler, postScheduler) {
 
     override fun buildObservableUseCase(): Observable<WeatherList> {
         return weatherStore.onUpdated()

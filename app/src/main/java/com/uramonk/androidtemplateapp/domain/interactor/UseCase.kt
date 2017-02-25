@@ -1,24 +1,25 @@
 package com.uramonk.androidtemplateapp.domain.interactor
 
 import rx.Observable
+import rx.Scheduler
 import rx.Subscriber
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import rx.subscriptions.Subscriptions
 
 /**
  * Created by kaz on 2016/12/23.
  */
 
-abstract class UseCase<T> protected constructor() {
+abstract class UseCase<T>
+protected constructor(private var executionScheduler: Scheduler,
+                      private var postScheduler: Scheduler) {
 
     private var subscription = Subscriptions.empty()
 
     fun execute(useCaseSubscriber: Subscriber<T>): Subscription {
         this.subscription = this.buildObservableUseCase()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(executionScheduler)
+                .observeOn(postScheduler)
                 .subscribe(useCaseSubscriber)
         return this.subscription
     }
