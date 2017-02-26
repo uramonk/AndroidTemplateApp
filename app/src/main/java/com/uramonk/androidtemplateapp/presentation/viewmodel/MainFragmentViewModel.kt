@@ -4,7 +4,6 @@ import android.databinding.ObservableField
 import com.uramonk.androidtemplateapp.ModuleInjector
 import com.uramonk.androidtemplateapp.R
 import com.uramonk.androidtemplateapp.domain.interactor.ClickButtonUseCase
-import com.uramonk.androidtemplateapp.domain.interactor.DefaultObserver
 import com.uramonk.androidtemplateapp.domain.interactor.GetWeatherListUseCase
 import com.uramonk.androidtemplateapp.domain.interactor.NotifyWeatherUseCase
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
@@ -16,6 +15,7 @@ import com.uramonk.androidtemplateapp.presentation.view.MainFragment
 import com.uramonk.androidtemplateapp.presentation.view.NextFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -78,47 +78,26 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         if (compositeDisposable.isDisposed) {
             compositeDisposable = CompositeDisposable()
         }
-        
+
         // Get and store WeatherList.
-        compositeDisposable.add(getWeatherUseCase.execute(GetWeatherObserver()))
+        compositeDisposable.add(getWeatherUseCase.execute(onNext = Consumer<WeatherList> {},
+                onError = Consumer<Throwable> { weatherUseCaseError(it) }))
         // Set WeatherList to View when store is updated.
-        compositeDisposable.add(notifyWeatherUseCase.execute(NotifyWeatherObserver()))
+        compositeDisposable.add(notifyWeatherUseCase.execute(
+                onNext = Consumer<WeatherList> { setWeatherList(it) }))
         // Set text when button clicked.
-        compositeDisposable.add(buttonClickedUseCase.execute(ButtonClickedObserver()))
+        compositeDisposable.add(
+                buttonClickedUseCase.execute(onNext = Consumer<Any> { setText() }))
         // Transition NextFragment when next button clicked.
-        compositeDisposable.add(nextButtonClickedUseCase.execute(NextButtonClickedObserver()))
+        compositeDisposable.add(
+                nextButtonClickedUseCase.execute(onNext = Consumer<Any> {
+                    commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container)
+                }))
         // Transition LicenseFragment when license button clicked.
-        compositeDisposable.add(licenseButtonClickedUseCase.execute(LicenseButtonClickedObserver()))
-    }
-
-    inner class GetWeatherObserver : DefaultObserver<WeatherList>() {
-        override fun onError(e: Throwable) {
-            weatherUseCaseError(e)
-        }
-    }
-
-    inner class NotifyWeatherObserver : DefaultObserver<WeatherList>() {
-        override fun onNext(value: WeatherList) {
-            setWeatherList(value)
-        }
-    }
-
-    inner class ButtonClickedObserver : DefaultObserver<Any>() {
-        override fun onNext(value: Any) {
-            setText()
-        }
-    }
-
-    inner class NextButtonClickedObserver : DefaultObserver<Any>() {
-        override fun onNext(value: Any) {
-            commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container)
-        }
-    }
-
-    inner class LicenseButtonClickedObserver : DefaultObserver<Any>() {
-        override fun onNext(value: Any) {
-            commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container)
-        }
+        compositeDisposable.add(
+                licenseButtonClickedUseCase.execute(onNext = Consumer<Any> {
+                    commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container)
+                }))
     }
 
     private fun setWeatherList(it: WeatherList) {
