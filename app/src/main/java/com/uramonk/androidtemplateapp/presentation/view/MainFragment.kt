@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 
-import com.jakewharton.rxbinding.view.RxView
 import com.trello.rxlifecycle.components.RxFragment
 import com.uramonk.androidtemplateapp.R
 import com.uramonk.androidtemplateapp.databinding.FragmentMainBinding
 import com.uramonk.androidtemplateapp.presentation.viewmodel.MainFragmentViewModel
 
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * Created by uramonk on 2016/06/23.
@@ -19,7 +19,8 @@ import rx.Observable
 class MainFragment : RxFragment() {
     private lateinit var binding: FragmentMainBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
@@ -30,15 +31,15 @@ class MainFragment : RxFragment() {
         binding.mainFragmentViewModel = mainFragmentViewModel
     }
 
-    fun onButtonClicked(): Observable<Void> {
+    fun onButtonClicked(): Observable<Any> {
         return RxView.clicks(binding.mainFragmentButton)
     }
 
-    fun onNextButtonClicked(): Observable<Void> {
+    fun onNextButtonClicked(): Observable<Any> {
         return RxView.clicks(binding.mainFragmentNextButton)
     }
 
-    fun onLicenseButtonClicked(): Observable<Void> {
+    fun onLicenseButtonClicked(): Observable<Any> {
         return RxView.clicks(binding.mainFragmentLicenseButton)
     }
 

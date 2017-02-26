@@ -2,7 +2,7 @@ package com.uramonk.androidtemplateapp.domain.repository
 
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * Created by uramonk on 2016/06/30.

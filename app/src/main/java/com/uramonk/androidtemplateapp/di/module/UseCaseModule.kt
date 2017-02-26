@@ -6,9 +6,9 @@ import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import dagger.Module
 import dagger.Provides
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -20,17 +20,18 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideGetWeatherListUseCase(@Named("executionScheduler") executionScheduler: Scheduler,
-                                     @Named("postScheduler") postScheduler: Scheduler,
-                                     weatherRepository: WeatherRepository,
-                                     weatherStore: WeatherStore): GetWeatherListUseCase {
-        return GetWeatherListUseCase(executionScheduler, postScheduler, weatherRepository, weatherStore)
+            @Named("postScheduler") postScheduler: Scheduler,
+            weatherRepository: WeatherRepository,
+            weatherStore: WeatherStore): GetWeatherListUseCase {
+        return GetWeatherListUseCase(executionScheduler, postScheduler, weatherRepository,
+                weatherStore)
     }
 
     @Provides
     @Singleton
     fun provideBindWeatherUseCase(@Named("executionScheduler") executionScheduler: Scheduler,
-                                  @Named("postScheduler") postScheduler: Scheduler,
-                                  weatherStore: WeatherStore): NotifyWeatherUseCase {
+            @Named("postScheduler") postScheduler: Scheduler,
+            weatherStore: WeatherStore): NotifyWeatherUseCase {
         return NotifyWeatherUseCase(executionScheduler, postScheduler, weatherStore)
     }
 

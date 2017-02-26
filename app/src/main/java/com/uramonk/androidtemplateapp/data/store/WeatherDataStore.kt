@@ -3,8 +3,8 @@ package com.uramonk.androidtemplateapp.data.store
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 
-import rx.Observable
-import rx.subjects.BehaviorSubject
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Created by uramonk on 2017/02/25.
@@ -19,6 +19,6 @@ class WeatherDataStore : WeatherStore {
     }
 
     override fun onUpdated(): Observable<WeatherList> {
-        return behaviorSubject.asObservable().share()
+        return behaviorSubject.hide().share()
     }
 }

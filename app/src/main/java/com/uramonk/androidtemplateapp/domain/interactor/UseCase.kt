@@ -1,10 +1,11 @@
 package com.uramonk.androidtemplateapp.domain.interactor
 
-import rx.Observable
-import rx.Scheduler
-import rx.Subscriber
-import rx.Subscription
-import rx.subscriptions.Subscriptions
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+
 
 /**
  * Created by kaz on 2016/12/23.
@@ -12,21 +13,23 @@ import rx.subscriptions.Subscriptions
 
 abstract class UseCase<T>
 protected constructor(private var executionScheduler: Scheduler,
-                      private var postScheduler: Scheduler) {
+        private var postScheduler: Scheduler) {
 
-    private var subscription = Subscriptions.empty()
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun execute(useCaseSubscriber: Subscriber<T>): Subscription {
-        this.subscription = this.buildObservableUseCase()
+    fun execute(observer: DisposableObserver<T>): Disposable {
+        val observable: Observable<T> = this.buildObservableUseCase()
                 .subscribeOn(executionScheduler)
                 .observeOn(postScheduler)
-                .subscribe(useCaseSubscriber)
-        return this.subscription
+
+        compositeDisposable.add(observable.subscribeWith(observer))
+
+        return compositeDisposable
     }
 
-    fun unsubscribe() {
-        if (!subscription.isUnsubscribed) {
-            subscription.unsubscribe()
+    fun dispose() {
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
         }
     }
 

@@ -6,8 +6,8 @@ import android.support.v7.app.AlertDialog
 import com.uramonk.androidtemplateapp.ModuleInjector
 import com.uramonk.androidtemplateapp.data.error.ApiError
 import com.uramonk.androidtemplateapp.data.error.ApiStatus
+import retrofit2.HttpException
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
@@ -37,7 +37,8 @@ class CommonErrorHandler {
     }
 
     private fun handleHttpException(context: Context, exception: HttpException) {
-        val errorConverter = retrofit.responseBodyConverter<ApiError>(ApiError::class.java, arrayOfNulls<Annotation>(0))
+        val errorConverter = retrofit.responseBodyConverter<ApiError>(ApiError::class.java,
+                arrayOfNulls<Annotation>(0))
         var apiError: ApiError
         try {
             apiError = errorConverter.convert(exception.response().errorBody())
@@ -58,7 +59,7 @@ class CommonErrorHandler {
         builder.setTitle("Error: " + apiError.apiStatus)
         builder.setMessage(apiError.message)
         builder.setPositiveButton("OK"
-        ) { dialog, which -> }
+        ) { _, _ -> }
                 .create()
                 .show()
     }

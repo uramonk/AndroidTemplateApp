@@ -6,13 +6,17 @@ import com.uramonk.androidtemplateapp.data.entity.mapper.WeatherListEntityDataMa
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * Created by uramonk on 2016/06/29.
  */
-class WeatherDataRepository(private val weatherApi: WeatherApi, private val weatherListEntityDataMapper: WeatherListEntityDataMapper) : WeatherRepository {
+class WeatherDataRepository(private val weatherApi: WeatherApi,
+        private val weatherListEntityDataMapper: WeatherListEntityDataMapper) : WeatherRepository {
+
     override fun getWeatherList(): Observable<WeatherList> {
-        return weatherApi.getWeather("TOKYO", Constants.OPEN_WEATHER_MAP_API_KEY).map { it -> weatherListEntityDataMapper.transform(it) }
+        return weatherApi.getWeather("TOKYO", Constants.OPEN_WEATHER_MAP_API_KEY).map {
+            weatherListEntityDataMapper.transform(it)
+        }
     }
 }
