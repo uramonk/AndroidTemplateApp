@@ -1,8 +1,6 @@
-package com.uramonk.androidtemplateapp.data.store
+package com.uramonk.androidtemplateapp.domain.store
 
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
-import com.uramonk.androidtemplateapp.domain.store.WeatherStore
-
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
