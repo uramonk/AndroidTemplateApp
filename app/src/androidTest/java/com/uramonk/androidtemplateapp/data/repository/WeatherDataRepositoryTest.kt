@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
+import rx.lang.kotlin.toSingle
 import java.io.IOException
 
 /**
@@ -38,9 +39,10 @@ class WeatherDataRepositoryTest {
     fun Weatherを取得できる() {
         val mockWebServer = MockWebServer()
         val weatherRepository = getWeatherRepository(mockWebServer)
-        mockWebServer.enqueue(MockResponse().setBody(TestUtility.createJsonString("weather_normal.json")))
+        mockWebServer.enqueue(
+                MockResponse().setBody(TestUtility.createJsonString("weather_normal.json")))
 
-        val weatherEntity = weatherRepository.getWeatherList().toBlocking().single()
+        val weatherEntity = weatherRepository.getWeatherList().toFuture().toSingle().toBlocking().value()
         assertThat(weatherEntity.base, `is`("stations"))
         assertThat(weatherEntity.weathers.size, `is`(1))
         assertThat(weatherEntity.weathers[0].description, `is`("broken clouds"))
