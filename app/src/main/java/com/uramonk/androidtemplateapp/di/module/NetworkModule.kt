@@ -1,10 +1,12 @@
 package com.uramonk.androidtemplateapp.di.module
 
+import android.util.Log
+import com.ihsanbal.logging.Level
+import com.ihsanbal.logging.LoggingInterceptor
 import com.uramonk.androidtemplateapp.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,9 +25,14 @@ class NetworkModule(private val baseUrl: String) {
         val builder = OkHttpClient.Builder()
 
         if (BuildConfig.DEBUG) {
-            val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            builder.addInterceptor(httpLoggingInterceptor)
+            builder.addInterceptor(LoggingInterceptor.Builder()
+                    .loggable(BuildConfig.DEBUG)
+                    .setLevel(Level.BASIC)
+                    .log(Log.INFO)
+                    .request("Request")
+                    .response("Response")
+                    .addHeader("version", BuildConfig.VERSION_NAME)
+                    .build())
         }
 
         return builder
