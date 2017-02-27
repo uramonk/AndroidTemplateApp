@@ -20,14 +20,14 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class) class UseCaseTest {
     private lateinit var useCase: UseCaseTestClass
     private lateinit var errorUseCase: UseCaseErrorTestClass
-    private lateinit var executionScheduler: Scheduler
-    private lateinit var postScheduler: Scheduler
+    private lateinit var testScheduler: TestScheduler
+    private lateinit var exception: Exception
 
     @Before fun setUp() {
-        executionScheduler = TestScheduler()
-        postScheduler = TestScheduler()
-        useCase = UseCaseTestClass(executionScheduler, postScheduler)
-        errorUseCase = UseCaseErrorTestClass(executionScheduler, postScheduler)
+        testScheduler = TestScheduler()
+        useCase = UseCaseTestClass(testScheduler, testScheduler)
+        errorUseCase = UseCaseErrorTestClass(testScheduler, testScheduler)
+        exception = Exception("Error")
     }
 
     @Test fun testBuildObservableUseCaseReturnCorrectResult() {
@@ -36,28 +36,30 @@ import org.mockito.junit.MockitoJUnitRunner
         useCase.execute(onNext = Consumer { assertThat(it).isTrue() }, onError = Consumer {},
                 onCompleted = Action {})
         useCase.execute(DisposableObserverTestClass())
+
+        testScheduler.triggerActions()
     }
 
     @Test fun testBuildObservableUseCaseReturnThrowableWhenErrorOccurred() {
         errorUseCase.execute(onNext = Consumer { },
-                onError = Consumer { assertThat(it).hasCause(Exception("Error")) })
-        errorUseCase.execute(onNext = Consumer { assertThat(it).isTrue() },
-                onError = Consumer { assertThat(it).hasCause(Exception("Error")) })
-        errorUseCase.execute(onNext = Consumer { assertThat(it).isTrue() },
-                onError = Consumer { assertThat(it).hasCause(Exception("Error")) },
+                onError = Consumer { assertThat(it).isEqualTo(exception) })
+        errorUseCase.execute(onNext = Consumer { },
+                onError = Consumer { assertThat(it).isEqualTo(exception) },
                 onCompleted = Action {})
         errorUseCase.execute(DisposableObserverErrorTestClass())
+        testScheduler.triggerActions()
     }
 
     @Test fun testBuildObservableUseCaseWasDisposedWhenUseCaseDisposed() {
         val consumer: Consumer<Boolean> = Consumer {}
         val disposable: Disposable = useCase.execute(consumer)
+        testScheduler.triggerActions()
         useCase.dispose()
 
         assertThat(disposable.isDisposed).isTrue()
     }
 
-    private class UseCaseTestClass internal constructor(executionScheduler: Scheduler,
+    private inner class UseCaseTestClass internal constructor(executionScheduler: Scheduler,
             postScheduler: Scheduler) : UseCase<Boolean>(executionScheduler, postScheduler) {
 
         override fun buildObservableUseCase(): Observable<Boolean> {
@@ -65,15 +67,15 @@ import org.mockito.junit.MockitoJUnitRunner
         }
     }
 
-    private class UseCaseErrorTestClass internal constructor(executionScheduler: Scheduler,
+    private inner class UseCaseErrorTestClass internal constructor(executionScheduler: Scheduler,
             postScheduler: Scheduler) : UseCase<Boolean>(executionScheduler, postScheduler) {
 
         override fun buildObservableUseCase(): Observable<Boolean> {
-            return Observable.error(Exception("Error"))
+            return Observable.error(exception)
         }
     }
 
-    private class DisposableObserverTestClass internal constructor() : DisposableObserver<Boolean>() {
+    private inner class DisposableObserverTestClass internal constructor() : DisposableObserver<Boolean>() {
         override fun onNext(t: Boolean?) {
             assertThat(t).isTrue()
         }
@@ -87,13 +89,13 @@ import org.mockito.junit.MockitoJUnitRunner
         }
     }
 
-    private class DisposableObserverErrorTestClass internal constructor() : DisposableObserver<Boolean>() {
+    private inner class DisposableObserverErrorTestClass internal constructor() : DisposableObserver<Boolean>() {
         override fun onNext(t: Boolean?) {
 
         }
 
         override fun onError(e: Throwable?) {
-            assertThat(e).hasCause(Exception("Error"))
+            assertThat(e).isEqualTo(exception)
         }
 
         override fun onComplete() {
