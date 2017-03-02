@@ -26,18 +26,18 @@ class GetWeatherListUseCaseTest {
 
     @Before fun setUp() {
         testScheduler = TestScheduler()
-        useCase = GetWeatherListUseCase(testScheduler, testScheduler, weatherRepository,
-                weatherStore)
+        useCase = GetWeatherListUseCase(weatherRepository, weatherStore)
         weatherList = WeatherList("base", ArrayList<Weather>())
         `when`(weatherRepository.getWeatherList()).thenReturn(Observable.just(weatherList))
     }
 
     @Test fun testStoreUpdateAfterGetWeather() {
-        useCase.execute(onNext = Consumer {
-            assertThat(it).isEqualTo(weatherList)
-            verify(weatherRepository).getWeatherList()
-            verify(weatherStore).update(weatherList)
-        })
+        useCase.executionScheduler(testScheduler).postScheduler(testScheduler).execute(
+                onNext = Consumer {
+                    assertThat(it).isEqualTo(weatherList)
+                    verify(weatherRepository).getWeatherList()
+                    verify(weatherStore).update(weatherList)
+                })
         testScheduler.triggerActions()
     }
 }
