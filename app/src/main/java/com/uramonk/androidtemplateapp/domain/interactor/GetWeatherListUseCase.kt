@@ -4,7 +4,6 @@ import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import javax.inject.Inject
 
 /**
@@ -13,11 +12,8 @@ import javax.inject.Inject
 
 class GetWeatherListUseCase
 @Inject
-constructor(executionScheduler: Scheduler,
-        postScheduler: Scheduler,
-        private val weatherRepository: WeatherRepository,
-        private val weatherStore: WeatherStore) : UseCase<WeatherList>(executionScheduler,
-        postScheduler) {
+constructor(private val weatherRepository: WeatherRepository,
+        private val weatherStore: WeatherStore) : UseCase<WeatherList>() {
 
     override fun buildObservableUseCase(): Observable<WeatherList> {
         return this.weatherRepository.getWeatherList()

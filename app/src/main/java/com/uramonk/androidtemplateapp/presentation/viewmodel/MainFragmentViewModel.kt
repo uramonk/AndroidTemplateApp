@@ -13,7 +13,6 @@ import com.uramonk.androidtemplateapp.presentation.model.mapper.WeatherListModel
 import com.uramonk.androidtemplateapp.presentation.view.LicenseFragment
 import com.uramonk.androidtemplateapp.presentation.view.MainFragment
 import com.uramonk.androidtemplateapp.presentation.view.NextFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import timber.log.Timber
@@ -60,18 +59,9 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     }
 
     private fun createUseCase() {
-        buttonClickedUseCase = ClickButtonUseCase(AndroidSchedulers.mainThread(),
-                AndroidSchedulers.mainThread(),
-                fragment.onButtonClicked(),
-                0)
-        nextButtonClickedUseCase = ClickButtonUseCase(AndroidSchedulers.mainThread(),
-                AndroidSchedulers.mainThread(),
-                fragment.onNextButtonClicked(),
-                1000)
-        licenseButtonClickedUseCase = ClickButtonUseCase(AndroidSchedulers.mainThread(),
-                AndroidSchedulers.mainThread(),
-                fragment.onLicenseButtonClicked(),
-                1000)
+        buttonClickedUseCase = ClickButtonUseCase(fragment.onButtonClicked(), 0)
+        nextButtonClickedUseCase = ClickButtonUseCase(fragment.onNextButtonClicked(), 1000)
+        licenseButtonClickedUseCase = ClickButtonUseCase(fragment.onLicenseButtonClicked(), 1000)
     }
 
     private fun executeUseCase() {

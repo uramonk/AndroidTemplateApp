@@ -2,21 +2,41 @@ package com.uramonk.androidtemplateapp.domain.interactor
 
 import io.reactivex.Observable
 import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
 import io.reactivex.observers.DisposableObserver
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by kaz on 2016/12/23.
  */
 
-abstract class UseCase<T>
-protected constructor(private var executionScheduler: Scheduler,
-        private var postScheduler: Scheduler) {
-
+abstract class UseCase<T> {
+    private var executionScheduler: Scheduler = Schedulers.newThread()
+    private var postScheduler: Scheduler = AndroidSchedulers.mainThread()
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    protected constructor() {
+
+    }
+
+    protected constructor(executionScheduler: Scheduler, postScheduler: Scheduler) {
+        this.executionScheduler = executionScheduler
+        this.postScheduler = postScheduler
+    }
+
+    fun executionScheduler(executionScheduler: Scheduler): UseCase<T> {
+        this.executionScheduler = executionScheduler
+        return this
+    }
+
+    fun postScheduler(postScheduler: Scheduler): UseCase<T> {
+        this.postScheduler = postScheduler
+        return this
+    }
 
     fun execute(observer: DisposableObserver<T>): Disposable {
         val observable: Observable<T> = this.buildObservableUseCase()
@@ -66,4 +86,5 @@ protected constructor(private var executionScheduler: Scheduler,
     }
 
     protected abstract fun buildObservableUseCase(): Observable<T>
+
 }
