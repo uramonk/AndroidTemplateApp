@@ -2,14 +2,13 @@
 
 buildscript {
     ext.kotlin_version = '1.1.0'
-    ext.android_plugin_version = '2.2.3'
+    ext.android_plugin_version = '2.3.0'
     repositories {
         jcenter()
         mavenCentral()
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.0'
@@ -24,7 +23,6 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
         maven { url 'https://jitpack.io' }
     }
 }
