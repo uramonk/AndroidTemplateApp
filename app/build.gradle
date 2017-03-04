@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'spoon'
 apply plugin: 'com.cookpad.android.licensetools'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -83,9 +84,6 @@ dependencies {
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-kapt {
-    generateStubs = true
 }
 
 // TODO: If you added 'app/google-service.json' file, please enable this line.
