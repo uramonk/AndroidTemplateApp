@@ -8,7 +8,6 @@ import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import java.util.concurrent.TimeUnit
@@ -40,7 +39,7 @@ class WeatherDataRepository(private val weatherApi: WeatherApi,
                         if (throwableIntegerPair.second < RETRY_NUM) {
                             Observable.timer(RETRY_INTERVAL, TimeUnit.SECONDS)
                         } else {
-                            Observable.error<Any>(throwableIntegerPair.first)
+                            Observable.error(throwableIntegerPair.first)
                         }
                     }
         }
