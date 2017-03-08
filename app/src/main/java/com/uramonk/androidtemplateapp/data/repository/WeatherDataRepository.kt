@@ -26,10 +26,10 @@ class WeatherDataRepository(private val weatherApi: WeatherApi,
     override fun getWeatherList(): Observable<WeatherList> {
         return weatherApi.getWeather("TOKYO", Constants.OPEN_WEATHER_MAP_API_KEY).map {
             weatherListEntityDataMapper.transform(it)
-        }.retryWhen(retryWhenUnAuthorized())
+        }.retryWhen(retryWhenError())
     }
 
-    private fun retryWhenUnAuthorized(): Function<Observable<out Throwable>, Observable<Any>> {
+    private fun retryWhenError(): Function<Observable<out Throwable>, Observable<Any>> {
         return Function { observable ->
             observable.zipWith(Observable.range(0, RETRY_NUM + 1),
                     BiFunction<Throwable, Int, Pair<Throwable, Int>> { throwable, integer ->
