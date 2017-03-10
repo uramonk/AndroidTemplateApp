@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.presentation.viewmodel
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.databinding.ObservableField
 import android.support.v7.app.AlertDialog
@@ -72,24 +73,40 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         }
 
         // Get and store WeatherList.
-        compositeDisposable.add(getWeatherUseCase.execute(onNext = Consumer<WeatherList> {},
-                onError = Consumer<Throwable> { show(fragment.activity, it) }))
+        val progressDialog: ProgressDialog = showProgressDialog()
+        compositeDisposable.add(getWeatherUseCase.execute(
+                onNext = Consumer<WeatherList> {
+                    progressDialog.dismiss()
+                },
+                onError = Consumer<Throwable> {
+                    progressDialog.dismiss()
+                    show(fragment.activity, it)
+                }))
         // Set WeatherList to View when store is updated.
         compositeDisposable.add(notifyWeatherUseCase.execute(
-                onNext = Consumer<WeatherList> { setWeatherList(it) }))
+                onNext = Consumer<WeatherList> {
+                    setWeatherList(it)
+                }))
         // Set text when button clicked.
         compositeDisposable.add(
-                buttonClickedUseCase.execute(onNext = Consumer<Any> { setText() }))
+                buttonClickedUseCase.execute(
+                        onNext = Consumer<Any> {
+                            setText()
+                        }))
         // Transition NextFragment when next button clicked.
         compositeDisposable.add(
-                nextButtonClickedUseCase.execute(onNext = Consumer<Any> {
-                    commitFragment(fragment.activity, NextFragment.newInstance(), R.id.container)
-                }))
+                nextButtonClickedUseCase.execute(
+                        onNext = Consumer<Any> {
+                            commitFragment(fragment.activity, NextFragment.newInstance(),
+                                    R.id.container)
+                        }))
         // Transition LicenseFragment when license button clicked.
         compositeDisposable.add(
-                licenseButtonClickedUseCase.execute(onNext = Consumer<Any> {
-                    commitFragment(fragment.activity, LicenseFragment.newInstance(), R.id.container)
-                }))
+                licenseButtonClickedUseCase.execute(
+                        onNext = Consumer<Any> {
+                            commitFragment(fragment.activity, LicenseFragment.newInstance(),
+                                    R.id.container)
+                        }))
     }
 
     private fun setWeatherList(it: WeatherList) {
@@ -107,7 +124,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
 
     private fun show(context: Context, throwable: Throwable) {
         val builder = AlertDialog.Builder(context)
-        if(throwable is ApiError) {
+        if (throwable is ApiError) {
             val apiError: ApiError = throwable
             builder.setTitle("Error: " + apiError.apiStatus)
         }
@@ -116,5 +133,14 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                 ) { _, _ -> }
                 .create()
                 .show()
+    }
+
+    private fun showProgressDialog(): ProgressDialog {
+        val progressDialog: ProgressDialog = ProgressDialog(fragment.activity)
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        progressDialog.show()
+        return progressDialog
     }
 }
