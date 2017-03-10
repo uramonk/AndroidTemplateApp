@@ -4,6 +4,7 @@ import android.util.Log
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.uramonk.androidtemplateapp.BuildConfig
+import com.uramonk.androidtemplateapp.data.error.RxJava2ErrorHandlingCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -47,7 +48,7 @@ class NetworkModule(private val baseUrl: String) {
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2ErrorHandlingCallAdapterFactory.create())
                 .build()
     }
 }

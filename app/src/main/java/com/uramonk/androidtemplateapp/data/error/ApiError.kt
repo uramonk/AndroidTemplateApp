@@ -3,7 +3,7 @@ package com.uramonk.androidtemplateapp.data.error
 /**
  * Created by uramonk on 2016/06/22.
  */
-class ApiError(val cod: Int, val message: String?) {
+class ApiError(val cod: Int, override val message: String?): Throwable(message) {
 
     val apiStatus: ApiStatus
         get() = convertAPIStatus(cod)
