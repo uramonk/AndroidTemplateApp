@@ -1,7 +1,7 @@
 package com.uramonk.androidtemplateapp.data.error;
 
 import com.uramonk.androidtemplateapp.ModuleInjector;
-import com.uramonk.androidtemplateapp.data.entity.Data;
+import com.uramonk.androidtemplateapp.data.entity.Entity;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
@@ -18,14 +18,14 @@ import retrofit2.Retrofit;
  * Created by uramonk on 2017/03/10.
  */
 
-public class ErrorHandler implements Function<Throwable, ObservableSource<? extends Data>> {
+public class ErrorHandler implements Function<Throwable, ObservableSource<? extends Entity>> {
     @Inject Retrofit retrofit;
 
     public ErrorHandler() {
         ModuleInjector.WeatherComponentInstance.INSTANCE.get().inject(this);
     }
 
-    @Override public Observable<? extends Data> apply(@NonNull Throwable throwable) throws Exception {
+    @Override public Observable<? extends Entity> apply(@NonNull Throwable throwable) throws Exception {
 
         if (throwable instanceof HttpException) {
             // 400 ~ 500
@@ -39,7 +39,7 @@ public class ErrorHandler implements Function<Throwable, ObservableSource<? exte
         return Observable.error(throwable);
     }
 
-    private Observable<? extends Data> handleHttpException(HttpException exception) {
+    private Observable<? extends Entity> handleHttpException(HttpException exception) {
         Converter<ResponseBody, ApiError> errorConverter = retrofit.responseBodyConverter(ApiError.class, new Annotation[0]);
         ApiError apiError;
         try {
@@ -51,7 +51,7 @@ public class ErrorHandler implements Function<Throwable, ObservableSource<? exte
         return Observable.error(apiError);
     }
 
-    private Observable<? extends Data> handleIOException(IOException exception) {
+    private Observable<? extends Entity> handleIOException(IOException exception) {
         ApiError apiError = new ApiError(ApiStatus.NETWORK_ERROR.getValue(), exception.getMessage());
         return Observable.error(apiError);
     }

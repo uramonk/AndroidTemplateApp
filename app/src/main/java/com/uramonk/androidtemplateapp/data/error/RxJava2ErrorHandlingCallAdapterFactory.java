@@ -1,6 +1,6 @@
 package com.uramonk.androidtemplateapp.data.error;
 
-import com.uramonk.androidtemplateapp.data.entity.Data;
+import com.uramonk.androidtemplateapp.data.entity.Entity;
 import io.reactivex.Observable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -25,7 +25,7 @@ public class RxJava2ErrorHandlingCallAdapterFactory extends CallAdapter.Factory 
         return new RxJava2CallAdapter<>(factory.get(returnType, annotations, retrofit));
     }
 
-    private static class RxJava2CallAdapter<T> implements CallAdapter<T, Observable<? extends Data>> {
+    private static class RxJava2CallAdapter<T> implements CallAdapter<T, Observable<? extends Entity>> {
         private final CallAdapter<T, ?> callAdapter;
 
         public RxJava2CallAdapter(CallAdapter<T, ?> callAdapter) {
@@ -36,8 +36,8 @@ public class RxJava2ErrorHandlingCallAdapterFactory extends CallAdapter.Factory 
             return callAdapter.responseType();
         }
 
-        @Override public Observable<? extends Data> adapt(Call<T> call) {
-            return ((Observable<Data>) callAdapter.adapt(call))
+        @Override public Observable<? extends Entity> adapt(Call<T> call) {
+            return ((Observable<Entity>) callAdapter.adapt(call))
                     .onErrorResumeNext(new ErrorHandler());
         }
     }
