@@ -8,6 +8,7 @@ import com.uramonk.androidtemplateapp.ModuleInjector
 import com.uramonk.androidtemplateapp.R
 import com.uramonk.androidtemplateapp.data.error.ApiError
 import com.uramonk.androidtemplateapp.domain.interactor.ClickButtonUseCase
+import com.uramonk.androidtemplateapp.domain.interactor.ClickTextButtonUseCase
 import com.uramonk.androidtemplateapp.domain.interactor.GetWeatherListUseCase
 import com.uramonk.androidtemplateapp.domain.interactor.NotifyWeatherUseCase
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
@@ -36,7 +37,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     @Inject
     lateinit var notifyWeatherUseCase: NotifyWeatherUseCase
 
-    lateinit var buttonClickedUseCase: ClickButtonUseCase
+    lateinit var buttonClickedUseCase: ClickTextButtonUseCase
     lateinit var nextButtonClickedUseCase: ClickButtonUseCase
     lateinit var licenseButtonClickedUseCase: ClickButtonUseCase
 
@@ -62,7 +63,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     }
 
     private fun createUseCase() {
-        buttonClickedUseCase = ClickButtonUseCase(fragment.onButtonClicked(), 0)
+        buttonClickedUseCase = ClickTextButtonUseCase(text.get(), fragment.onButtonClicked(), 0)
         nextButtonClickedUseCase = ClickButtonUseCase(fragment.onNextButtonClicked(), 1000)
         licenseButtonClickedUseCase = ClickButtonUseCase(fragment.onLicenseButtonClicked(), 1000)
     }
@@ -85,13 +86,13 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         // Set WeatherList to View when store is updated.
         compositeDisposable.add(notifyWeatherUseCase.execute(
                 onNext = Consumer<WeatherList> {
-                    setWeatherList(it)
+                    weatherList.set(WeatherListModelDataMapper().transform(it))
                 }))
         // Set text when button clicked.
         compositeDisposable.add(
                 buttonClickedUseCase.execute(
-                        onNext = Consumer<Any> {
-                            setText()
+                        onNext = Consumer<String> { it ->
+                            text.set(it)
                         }))
         // Transition NextFragment when next button clicked.
         compositeDisposable.add(
@@ -107,19 +108,6 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                             commitFragment(fragment.activity, LicenseFragment.newInstance(),
                                     R.id.container)
                         }))
-    }
-
-    private fun setWeatherList(it: WeatherList) {
-        val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(it)
-        weatherList.set(weatherListModel)
-    }
-
-    private fun setText() {
-        if (text.get().isEmpty()) {
-            text.set("Button Clicked!")
-        } else {
-            text.set("")
-        }
     }
 
     private fun show(context: Context, throwable: Throwable) {
