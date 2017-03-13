@@ -2,6 +2,7 @@ package com.uramonk.androidtemplateapp.presentation.viewmodel
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.databinding.ObservableField
 import android.support.v7.app.AlertDialog
 import com.uramonk.androidtemplateapp.ModuleInjector
@@ -73,16 +74,6 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
             compositeDisposable = CompositeDisposable()
         }
 
-        // Get and store WeatherList.
-        val progressDialog: ProgressDialog = showProgressDialog()
-        compositeDisposable.add(getWeatherUseCase.execute(
-                onNext = Consumer<WeatherList> {
-                    progressDialog.dismiss()
-                },
-                onError = Consumer<Throwable> {
-                    progressDialog.dismiss()
-                    show(fragment.activity, it)
-                }))
         // Set WeatherList to View when store is updated.
         compositeDisposable.add(notifyWeatherUseCase.execute(
                 onNext = Consumer<WeatherList> {
@@ -108,17 +99,31 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                             commitFragment(fragment.activity, LicenseFragment.newInstance(),
                                     R.id.container)
                         }))
+        // Get and store WeatherList.
+        requestWeather()
     }
 
-    private fun show(context: Context, throwable: Throwable) {
+    private fun requestWeather() {
+        val progressDialog: ProgressDialog = showProgressDialog()
+        compositeDisposable.add(getWeatherUseCase.execute(
+                onNext = Consumer<WeatherList> {
+                    progressDialog.dismiss()
+                },
+                onError = Consumer<Throwable> {
+                    progressDialog.dismiss()
+                    showErrorDialog(fragment.activity, it)
+                }))
+    }
+
+    private fun showErrorDialog(context: Context, throwable: Throwable) {
         val builder = AlertDialog.Builder(context)
         if (throwable is ApiError) {
             val apiError: ApiError = throwable
             builder.setTitle("Error: " + apiError.apiStatus)
         }
         builder.setMessage(throwable.message)
-                .setPositiveButton("OK"
-                ) { _, _ -> }
+                .setPositiveButton("Retry", { _, _ -> requestWeather() })
+                .setNegativeButton("Cancel", { _, _ -> })
                 .create()
                 .show()
     }
