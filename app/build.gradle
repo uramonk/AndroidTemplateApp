@@ -20,12 +20,21 @@ android {
         enabled = true
     }
     buildTypes {
+        Properties localProperties = new Properties()
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
         debug {
             applicationIdSuffix ".debug"
+            if (localProperties.getProperty("weatherMapApiKey")) {
+                buildConfigField 'String', 'WEATHER_MAP_API_KEY', localProperties.getProperty("weatherMapApiKey")
+            }
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (localProperties.getProperty("weatherMapApiKey")) {
+                buildConfigField 'String', 'WEATHER_MAP_API_KEY', localProperties.getProperty("weatherMapApiKey")
+            }
         }
     }
     sourceSets {
