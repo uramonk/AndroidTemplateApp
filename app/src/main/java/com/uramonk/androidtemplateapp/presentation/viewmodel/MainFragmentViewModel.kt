@@ -2,7 +2,6 @@ package com.uramonk.androidtemplateapp.presentation.viewmodel
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.databinding.ObservableField
 import android.support.v7.app.AlertDialog
 import com.uramonk.androidtemplateapp.ModuleInjector
@@ -30,7 +29,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
 
     val text = ObservableField("")
     val weatherList = ObservableField<WeatherListModel>()
-
+    var progressDialog: ProgressDialog? = null
     var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     @Inject
@@ -104,13 +103,13 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     }
 
     private fun requestWeather() {
-        val progressDialog: ProgressDialog = showProgressDialog()
+        showProgressDialog()
         compositeDisposable.add(getWeatherUseCase.execute(
                 onNext = Consumer<WeatherList> {
-                    progressDialog.dismiss()
+                    closeProgressDialog()
                 },
                 onError = Consumer<Throwable> {
-                    progressDialog.dismiss()
+                    closeProgressDialog()
                     showErrorDialog(fragment.activity, it)
                 }))
     }
@@ -128,12 +127,16 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                 .show()
     }
 
-    private fun showProgressDialog(): ProgressDialog {
-        val progressDialog: ProgressDialog = ProgressDialog(fragment.activity)
-        progressDialog.setCancelable(false)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-        progressDialog.show()
-        return progressDialog
+    private fun showProgressDialog() {
+        closeProgressDialog()
+        progressDialog = ProgressDialog(fragment.activity)
+        progressDialog?.setCancelable(false)
+        progressDialog?.setMessage("Loading...")
+        progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        progressDialog?.show()
+    }
+
+    private fun closeProgressDialog() {
+        progressDialog?.dismiss()
     }
 }
