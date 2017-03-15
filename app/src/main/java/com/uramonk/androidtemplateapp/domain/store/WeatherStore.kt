@@ -13,4 +13,6 @@ interface WeatherStore {
     fun update(weatherList: WeatherList)
 
     fun onUpdated(): Observable<WeatherList>
+
+    fun getValue(): Observable<WeatherList>
 }
