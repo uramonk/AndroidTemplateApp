@@ -18,7 +18,7 @@ constructor() {
      */
     fun transform(weatherListEntity: WeatherListEntity): WeatherList {
         val weatherList: WeatherList = WeatherList(weatherListEntity.base,
-                WeatherEntityDataMapper().transform(weatherListEntity.weather))
+                WeatherEntityDataMapper().transform(weatherListEntity.weather), System.currentTimeMillis())
         return weatherList
     }
 

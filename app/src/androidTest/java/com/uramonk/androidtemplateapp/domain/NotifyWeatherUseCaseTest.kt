@@ -28,7 +28,7 @@ class NotifyWeatherUseCaseTest {
     fun setUp() {
         testScheduler = TestScheduler()
         useCase = NotifyWeatherUseCase(weatherStore)
-        weatherList = WeatherList("base", ArrayList<Weather>())
+        weatherList = WeatherList("base", ArrayList<Weather>(), 100L)
     }
 
     @Test

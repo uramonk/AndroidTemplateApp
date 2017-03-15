@@ -27,7 +27,7 @@ class GetWeatherListUseCaseTest {
     @Before fun setUp() {
         testScheduler = TestScheduler()
         useCase = GetWeatherListUseCase(weatherRepository, weatherStore)
-        weatherList = WeatherList("base", ArrayList<Weather>())
+        weatherList = WeatherList("base", ArrayList<Weather>(), 100L)
         `when`(weatherRepository.getWeatherList()).thenReturn(Observable.just(weatherList))
     }
 

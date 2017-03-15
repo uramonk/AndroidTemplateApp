@@ -25,7 +25,8 @@ class WeatherListModelDataMapperTest {
             list.add(weather)
         }
 
-        val weatherList: WeatherList = WeatherList("base", list)
+        val createdAt: Long = System.currentTimeMillis()
+        val weatherList: WeatherList = WeatherList("base", list, createdAt)
         val weatherListModel: WeatherListModel = WeatherListModelDataMapper().transform(weatherList)
         Assert.assertThat(weatherListModel.base, `is`("base"))
         for (i: Int in 0..weatherListModel.weathers.size - 1) {
@@ -33,6 +34,7 @@ class WeatherListModelDataMapperTest {
             Assert.assertThat(weatherListModel.weathers[i].main, `is`("main"))
             Assert.assertThat(weatherListModel.weathers[i].description, `is`("description"))
             Assert.assertThat(weatherListModel.weathers[i].icon, `is`("icon"))
+            Assert.assertThat(weatherListModel.createdAt, `is`(createdAt))
         }
     }
 
@@ -45,13 +47,14 @@ class WeatherListModelDataMapperTest {
                 val weather: Weather = Weather(j, "main", "description", "icon")
                 wList.add(weather)
             }
-            val weatherList: WeatherList = WeatherList("base" + i.toString(), wList)
+            val weatherList: WeatherList = WeatherList("base" + i.toString(), wList, 100L)
             list.add(weatherList)
         }
 
         val weatherListModelList: List<WeatherListModel> = WeatherListModelDataMapper().transform(list)
         for (i: Int in 0..9) {
             Assert.assertThat(weatherListModelList[i].base, `is`("base" + i.toString()))
+            Assert.assertThat(weatherListModelList[i].createdAt, `is`(100L))
             for (j: Int in 0..9) {
                 Assert.assertThat(weatherListModelList[i].weathers[j].id, `is`(j))
                 Assert.assertThat(weatherListModelList[i].weathers[j].main, `is`("main"))

@@ -18,7 +18,7 @@ constructor() {
      */
     fun transform(weatherList: WeatherList): WeatherListModel {
         val weatherModelList: WeatherListModel = WeatherListModel(weatherList.base,
-                WeatherModelDataMapper().transform(weatherList.weathers))
+                WeatherModelDataMapper().transform(weatherList.weathers), weatherList.createdAt)
         return weatherModelList
     }
 
