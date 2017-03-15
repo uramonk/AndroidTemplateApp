@@ -43,6 +43,10 @@ class MainFragment : RxFragment() {
         return RxView.clicks(binding.mainFragmentLicenseButton)
     }
 
+    fun onGetWeatherButtonClicked(): Observable<Any> {
+        return RxView.clicks(binding.mainFragmentGetWeatherButton)
+    }
+
     companion object {
         fun newInstance(): MainFragment {
             return MainFragment()

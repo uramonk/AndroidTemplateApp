@@ -40,6 +40,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     lateinit var buttonClickedUseCase: ClickTextButtonUseCase
     lateinit var nextButtonClickedUseCase: ClickButtonUseCase
     lateinit var licenseButtonClickedUseCase: ClickButtonUseCase
+    lateinit var getWeatherButtonClickedUseCase: ClickButtonUseCase
 
     override fun onStart() {
         super.onStart()
@@ -66,6 +67,8 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         buttonClickedUseCase = ClickTextButtonUseCase(text.get(), fragment.onButtonClicked(), 0)
         nextButtonClickedUseCase = ClickButtonUseCase(fragment.onNextButtonClicked(), 1000)
         licenseButtonClickedUseCase = ClickButtonUseCase(fragment.onLicenseButtonClicked(), 1000)
+        getWeatherButtonClickedUseCase = ClickButtonUseCase(fragment.onGetWeatherButtonClicked(),
+                1000)
     }
 
     private fun executeUseCase() {
@@ -74,10 +77,11 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
         }
 
         // Set WeatherList to View when store is updated.
-        compositeDisposable.add(notifyWeatherUseCase.execute(
-                onNext = Consumer<WeatherList> {
-                    weatherList.set(WeatherListModelDataMapper().transform(it))
-                }))
+        compositeDisposable.add(
+                notifyWeatherUseCase.execute(
+                        onNext = Consumer<WeatherList> {
+                            weatherList.set(WeatherListModelDataMapper().transform(it))
+                        }))
         // Set text when button clicked.
         compositeDisposable.add(
                 buttonClickedUseCase.execute(
@@ -98,6 +102,13 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
                             commitFragment(fragment.activity, LicenseFragment.newInstance(),
                                     R.id.container)
                         }))
+        // Get WeatherList by user
+        compositeDisposable.add(
+                getWeatherButtonClickedUseCase.execute(
+                        onNext = Consumer<Any> {
+                            requestWeather()
+                        }))
+
         // Get and store WeatherList.
         requestWeather()
     }
