@@ -1,5 +1,6 @@
 package com.uramonk.androidtemplateapp.domain.interactor
 
+import com.uramonk.androidtemplateapp.Constants
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
 import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
@@ -19,7 +20,7 @@ constructor(private val weatherRepository: WeatherRepository,
     override fun buildObservableUseCase(): Observable<WeatherList> {
         return weatherStore.getValue()
                 .flatMap { it ->
-                    if(System.currentTimeMillis() - it.createdAt > 1 * 60 * 1000) {
+                    if(System.currentTimeMillis() - it.createdAt > Constants.CACHE_INTERVAL) {
                         Timber.d("Get Weather from Network")
                         return@flatMap weatherRepository.getWeatherList()
                     }

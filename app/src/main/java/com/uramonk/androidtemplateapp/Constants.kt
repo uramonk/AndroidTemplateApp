@@ -13,4 +13,6 @@ object Constants {
      * Must define `weatherMapApiKey` in local.properties
      */
     val OPEN_WEATHER_MAP_API_KEY = BuildConfig.WEATHER_MAP_API_KEY
+
+    val CACHE_INTERVAL = 60000
 }
