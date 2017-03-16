@@ -20,10 +20,10 @@ constructor(private val weatherRepository: WeatherRepository,
         return weatherStore.getValue()
                 .flatMap { it ->
                     if(System.currentTimeMillis() - it.createdAt > 1 * 60 * 1000) {
-                        Timber.i("Get Weather from Network")
+                        Timber.d("Get Weather from Network")
                         return@flatMap weatherRepository.getWeatherList()
                     }
-                    Timber.i("Get Weather from Local store")
+                    Timber.d("Get Weather from Local store")
                     return@flatMap Observable.just(it)
                 }
                 .doOnNext { weatherStore.update(it) }

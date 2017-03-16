@@ -27,6 +27,8 @@ android {
             applicationIdSuffix ".debug"
             if (localProperties.getProperty("weatherMapApiKey")) {
                 buildConfigField 'String', 'WEATHER_MAP_API_KEY', localProperties.getProperty("weatherMapApiKey")
+            } else {
+                buildConfigField 'String', 'WEATHER_MAP_API_KEY', '""'
             }
         }
         release {
@@ -34,6 +36,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (localProperties.getProperty("weatherMapApiKey")) {
                 buildConfigField 'String', 'WEATHER_MAP_API_KEY', localProperties.getProperty("weatherMapApiKey")
+            } else {
+                buildConfigField 'String', 'WEATHER_MAP_API_KEY', '""'
             }
         }
     }
