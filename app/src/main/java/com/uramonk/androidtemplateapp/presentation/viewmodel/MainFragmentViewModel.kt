@@ -45,7 +45,7 @@ class MainFragmentViewModel(private val fragment: MainFragment) : BaseViewModel(
     override fun onStart() {
         super.onStart()
         Timber.d("onStart")
-        ModuleInjector.WeatherComponentInstance.get().inject(this)
+        ModuleInjector.SingletonWeatherComponent.instance.inject(this)
     }
 
     override fun onResume() {

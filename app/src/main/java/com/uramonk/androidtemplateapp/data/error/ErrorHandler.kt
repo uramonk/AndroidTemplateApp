@@ -19,7 +19,7 @@ class ErrorHandler : Function<Throwable, ObservableSource<out Entity>> {
     @Inject lateinit var retrofit: Retrofit
 
     init {
-        ModuleInjector.WeatherComponentInstance.get().inject(this)
+        ModuleInjector.SingletonWeatherComponent.instance.inject(this)
     }
 
     @Throws(Exception::class)

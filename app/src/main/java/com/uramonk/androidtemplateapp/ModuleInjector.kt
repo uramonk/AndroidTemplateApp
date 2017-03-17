@@ -13,12 +13,10 @@ class ModuleInjector private constructor() {
     /**
      * Singleton Components
      */
-    object WeatherComponentInstance {
-        fun get(): WeatherComponent {
-            return DaggerWeatherComponent.builder()
-                    .networkModule(NetworkModule(Constants.OPEN_WEATHER_MAP_URL))
-                    .weatherModule(WeatherModule())
-                    .build()
-        }
+    object SingletonWeatherComponent {
+        val instance: WeatherComponent = DaggerWeatherComponent.builder()
+                .networkModule(NetworkModule(Constants.OPEN_WEATHER_MAP_URL))
+                .weatherModule(WeatherModule())
+                .build()
     }
 }
