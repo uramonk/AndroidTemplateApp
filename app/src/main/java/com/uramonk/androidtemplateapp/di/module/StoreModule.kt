@@ -1,6 +1,6 @@
 package com.uramonk.androidtemplateapp.di.module
 
-import com.uramonk.androidtemplateapp.domain.store.WeatherDataStore
+import com.uramonk.androidtemplateapp.data.store.WeatherDataStore
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import dagger.Module
 import dagger.Provides

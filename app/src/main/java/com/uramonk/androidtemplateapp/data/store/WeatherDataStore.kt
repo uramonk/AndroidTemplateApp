@@ -1,10 +1,10 @@
-package com.uramonk.androidtemplateapp.domain.store
+package com.uramonk.androidtemplateapp.data.store
 
 import com.uramonk.androidtemplateapp.domain.model.Weather
 import com.uramonk.androidtemplateapp.domain.model.WeatherList
+import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import rx.lang.kotlin.toSingletonObservable
 import java.util.*
 
 /**
