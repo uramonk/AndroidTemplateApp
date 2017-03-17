@@ -50,15 +50,6 @@ import org.mockito.junit.MockitoJUnitRunner
         testScheduler.triggerActions()
     }
 
-    @Test fun testBuildObservableUseCaseWasDisposedWhenUseCaseDisposed() {
-        val consumer: Consumer<Boolean> = Consumer {}
-        val disposable: Disposable = useCase.execute(consumer)
-        testScheduler.triggerActions()
-        useCase.dispose()
-
-        assertThat(disposable.isDisposed).isTrue()
-    }
-
     private inner class UseCaseTestClass internal constructor(executionScheduler: Scheduler,
             postScheduler: Scheduler) : UseCase<Boolean>(executionScheduler, postScheduler) {
 

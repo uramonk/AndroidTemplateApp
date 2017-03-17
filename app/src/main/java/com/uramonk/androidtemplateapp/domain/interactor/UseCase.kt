@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 abstract class UseCase<T> {
     private var executionScheduler: Scheduler = Schedulers.newThread()
     private var postScheduler: Scheduler = AndroidSchedulers.mainThread()
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var disposable: Disposable? = null
 
     protected constructor() {
 
@@ -43,9 +43,7 @@ abstract class UseCase<T> {
                 .subscribeOn(executionScheduler)
                 .observeOn(postScheduler)
 
-        compositeDisposable.add(observable.subscribeWith(observer))
-
-        return compositeDisposable
+        return observable.subscribeWith(observer)
     }
 
     fun execute(onNext: Consumer<in T>): Disposable {
@@ -53,9 +51,7 @@ abstract class UseCase<T> {
                 .subscribeOn(executionScheduler)
                 .observeOn(postScheduler)
 
-        compositeDisposable.add(observable.subscribe(onNext))
-
-        return compositeDisposable
+        return observable.subscribe(onNext)
     }
 
     fun execute(onNext: Consumer<in T>, onError: Consumer<in Throwable>): Disposable {
@@ -63,9 +59,7 @@ abstract class UseCase<T> {
                 .subscribeOn(executionScheduler)
                 .observeOn(postScheduler)
 
-        compositeDisposable.add(observable.subscribe(onNext, onError))
-
-        return compositeDisposable
+        return observable.subscribe(onNext, onError)
     }
 
     fun execute(onNext: Consumer<in T>, onError: Consumer<in Throwable>,
@@ -74,15 +68,7 @@ abstract class UseCase<T> {
                 .subscribeOn(executionScheduler)
                 .observeOn(postScheduler)
 
-        compositeDisposable.add(observable.subscribe(onNext, onError, onCompleted))
-
-        return compositeDisposable
-    }
-
-    fun dispose() {
-        if (!compositeDisposable.isDisposed) {
-            compositeDisposable.dispose()
-        }
+        return observable.subscribe(onNext, onError, onCompleted)
     }
 
     protected abstract fun buildObservableUseCase(): Observable<T>
