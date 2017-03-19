@@ -6,6 +6,7 @@ import com.uramonk.androidtemplateapp.domain.repository.WeatherRepository
 import com.uramonk.androidtemplateapp.domain.store.WeatherStore
 import io.reactivex.Observable
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -25,7 +26,7 @@ constructor(private val weatherRepository: WeatherRepository,
                         return@flatMap weatherRepository.getWeatherList()
                     }
                     Timber.d("Get Weather from Local store")
-                    return@flatMap Observable.just(it)
+                    return@flatMap Observable.just(it).delay(500, TimeUnit.MILLISECONDS)
                 }
                 .doOnNext { weatherStore.update(it) }
     }
