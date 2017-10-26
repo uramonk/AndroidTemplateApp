@@ -6,10 +6,10 @@ import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.annotations.NonNull
 import io.reactivex.functions.Function
-import java.io.IOException
-import javax.inject.Inject
 import retrofit2.HttpException
 import retrofit2.Retrofit
+import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Created by uramonk on 2017/03/10.

@@ -2,11 +2,11 @@ package com.uramonk.androidtemplateapp.data.error
 
 import com.uramonk.androidtemplateapp.data.entity.Entity
 import io.reactivex.Observable
-import java.lang.reflect.Type
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import java.lang.reflect.Type
 
 /**
  * Created by uramonk on 2017/03/10.
